@@ -1,0 +1,907 @@
+
+IR_decoder_testeeprom.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000003bc  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  00000452  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000008  00800060  00800060  00000450  2**0
+                  ALLOC
+  3 .eeprom       00000002  00810000  00810000  00000450  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  4 .comment      00000030  00000000  00000000  00000452  2**0
+                  CONTENTS, READONLY
+  5 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000484  2**2
+                  CONTENTS, READONLY
+  6 .debug_aranges 000000e8  00000000  00000000  000004c0  2**3
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_info   00000cf3  00000000  00000000  000005a8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_abbrev 000006fa  00000000  00000000  0000129b  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_line   00000856  00000000  00000000  00001995  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_frame  000000c0  00000000  00000000  000021ec  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_str    00000426  00000000  00000000  000022ac  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_loc    0000047e  00000000  00000000  000026d2  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 13 .debug_ranges 00000058  00000000  00000000  00002b50  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   8:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  18:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  28:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  34:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  38:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  3c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  40:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  44:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  48:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  4c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  50:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_clear_bss>:
+  60:	20 e0       	ldi	r18, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	01 c0       	rjmp	.+2      	; 0x6a <.do_clear_bss_start>
+
+00000068 <.do_clear_bss_loop>:
+  68:	1d 92       	st	X+, r1
+
+0000006a <.do_clear_bss_start>:
+  6a:	a8 36       	cpi	r26, 0x68	; 104
+  6c:	b2 07       	cpc	r27, r18
+  6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
+  70:	0e 94 50 01 	call	0x2a0	; 0x2a0 <main>
+  74:	0c 94 dc 01 	jmp	0x3b8	; 0x3b8 <_exit>
+
+00000078 <__bad_interrupt>:
+  78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000007c <uartInit>:
+unsigned char repeatCount = 0;
+
+void uartInit(void)
+{
+	// Set baud rate
+	UBRRH = (uint8_t)(USART_UBBR_VALUE>>8);
+  7c:	82 e0       	ldi	r24, 0x02	; 2
+  7e:	80 bd       	out	0x20, r24	; 32
+	UBRRL = (uint8_t)USART_UBBR_VALUE;
+  80:	85 ec       	ldi	r24, 0xC5	; 197
+  82:	89 b9       	out	0x09, r24	; 9
+
+	// Set frame format to 8 data bits, no parity, 1 stop bit
+	UCSRC = (1 << URSEL) | (1 << USBS) | (1 << UCSZ0);
+  84:	8a e8       	ldi	r24, 0x8A	; 138
+  86:	80 bd       	out	0x20, r24	; 32
+
+	// Enable receiver and transmitter
+	UCSRB = (1 << RXEN) | (1 << TXEN);
+  88:	88 e1       	ldi	r24, 0x18	; 24
+  8a:	8a b9       	out	0x0a, r24	; 10
+  8c:	08 95       	ret
+
+0000008e <uartSend>:
+}
+
+void uartSend(uint8_t u8Data)
+{
+	while((UCSRA & (1 << UDRE)) == 0);
+  8e:	5d 9b       	sbis	0x0b, 5	; 11
+  90:	fe cf       	rjmp	.-4      	; 0x8e <uartSend>
+	UDR = u8Data;
+  92:	8c b9       	out	0x0c, r24	; 12
+  94:	08 95       	ret
+
+00000096 <uartSendNibble>:
+}
+
+void uartSendNibble(unsigned char nibble)
+{
+	if(nibble < 10)
+  96:	8a 30       	cpi	r24, 0x0A	; 10
+  98:	20 f4       	brcc	.+8      	; 0xa2 <uartSendNibble+0xc>
+	uartSend(nibble + '0');
+  9a:	80 5d       	subi	r24, 0xD0	; 208
+  9c:	0e 94 47 00 	call	0x8e	; 0x8e <uartSend>
+  a0:	08 95       	ret
+	else
+	uartSend(nibble - 10 + 'A');
+  a2:	89 5c       	subi	r24, 0xC9	; 201
+  a4:	0e 94 47 00 	call	0x8e	; 0x8e <uartSend>
+  a8:	08 95       	ret
+
+000000aa <uartSendCode>:
+}
+ 
+void uartSendCode(unsigned int code)
+{
+  aa:	cf 93       	push	r28
+  ac:	df 93       	push	r29
+  ae:	ec 01       	movw	r28, r24
+	// print "0x"
+	uartSend('0');
+  b0:	80 e3       	ldi	r24, 0x30	; 48
+  b2:	0e 94 47 00 	call	0x8e	; 0x8e <uartSend>
+	uartSend('x');
+  b6:	88 e7       	ldi	r24, 0x78	; 120
+  b8:	0e 94 47 00 	call	0x8e	; 0x8e <uartSend>
+	// print 4 HEX digits
+	uartSendNibble(code >> 12);
+  bc:	8d 2f       	mov	r24, r29
+  be:	82 95       	swap	r24
+  c0:	8f 70       	andi	r24, 0x0F	; 15
+  c2:	0e 94 4b 00 	call	0x96	; 0x96 <uartSendNibble>
+	uartSendNibble((code >> 8) & 0x0f);
+  c6:	8d 2f       	mov	r24, r29
+  c8:	8f 70       	andi	r24, 0x0F	; 15
+  ca:	0e 94 4b 00 	call	0x96	; 0x96 <uartSendNibble>
+	uartSendNibble((code >> 4) & 0x0f);
+  ce:	ce 01       	movw	r24, r28
+  d0:	92 95       	swap	r25
+  d2:	82 95       	swap	r24
+  d4:	8f 70       	andi	r24, 0x0F	; 15
+  d6:	89 27       	eor	r24, r25
+  d8:	9f 70       	andi	r25, 0x0F	; 15
+  da:	89 27       	eor	r24, r25
+  dc:	8f 70       	andi	r24, 0x0F	; 15
+  de:	0e 94 4b 00 	call	0x96	; 0x96 <uartSendNibble>
+	uartSendNibble(code  & 0x0f);
+  e2:	8c 2f       	mov	r24, r28
+  e4:	8f 70       	andi	r24, 0x0F	; 15
+  e6:	0e 94 4b 00 	call	0x96	; 0x96 <uartSendNibble>
+
+	// CR
+	uartSend(13);
+  ea:	8d e0       	ldi	r24, 0x0D	; 13
+  ec:	0e 94 47 00 	call	0x8e	; 0x8e <uartSend>
+	// LF
+	uartSend(10);
+  f0:	8a e0       	ldi	r24, 0x0A	; 10
+  f2:	0e 94 47 00 	call	0x8e	; 0x8e <uartSend>
+}
+  f6:	df 91       	pop	r29
+  f8:	cf 91       	pop	r28
+  fa:	08 95       	ret
+
+000000fc <codeMatch>:
+// the learned code
+void codeMatch(unsigned int code)
+{
+	// pull-down the pin connected to the
+	// computer's power on button
+	START_DDR |= (1 << START_PIN);
+  fc:	b9 9a       	sbi	0x17, 1	; 23
+
+	// Debug LED on
+	PORTC = 255;
+  fe:	8f ef       	ldi	r24, 0xFF	; 255
+ 100:	85 bb       	out	0x15, r24	; 21
+
+	// Wait 40ms
+	TCNT1 = 0;
+ 102:	1d bc       	out	0x2d, r1	; 45
+ 104:	1c bc       	out	0x2c, r1	; 44
+	while(TCNT1 < 40000);
+ 106:	8c b5       	in	r24, 0x2c	; 44
+ 108:	9d b5       	in	r25, 0x2d	; 45
+ 10a:	80 34       	cpi	r24, 0x40	; 64
+ 10c:	9c 49       	sbci	r25, 0x9C	; 156
+ 10e:	d8 f3       	brcs	.-10     	; 0x106 <codeMatch+0xa>
+
+	// Hi-Z again
+	START_DDR &= ~(1 << START_PIN);
+ 110:	b9 98       	cbi	0x17, 1	; 23
+
+	// Debug LED off
+	PORTC = 0;
+ 112:	15 ba       	out	0x15, r1	; 21
+ 114:	08 95       	ret
+
+00000116 <init>:
+}
+
+void init()
+{
+	// Initialize timer's prescaler
+	TCCR1B = TIMER1_PRESCALER;
+ 116:	82 e0       	ldi	r24, 0x02	; 2
+ 118:	8e bd       	out	0x2e, r24	; 46
+
+	// Enable pull-up on IR pin
+	if(IR_ENABLE_PULLUP)
+	IR_PORT |= (1 << IR_PIN_NUM);
+ 11a:	92 9a       	sbi	0x12, 2	; 18
+
+	// Jumper pull-up
+	PORTB |= (1 << PORTB0);
+ 11c:	c0 9a       	sbi	0x18, 0	; 24
+
+	// Debug LED output - all pins on PORTC
+	DDRC = 255;
+ 11e:	8f ef       	ldi	r24, 0xFF	; 255
+ 120:	84 bb       	out	0x14, r24	; 20
+	uartInit();
+ 122:	0e 94 3e 00 	call	0x7c	; 0x7c <uartInit>
+ 126:	08 95       	ret
+
+00000128 <protocolSIRP>:
+}
+
+unsigned int protocolSIRP(unsigned int code)
+{
+ 128:	4c e0       	ldi	r20, 0x0C	; 12
+	unsigned int time;
+	unsigned char i;
+
+	static unsigned int lastCode = 0;
+
+	code = 0;
+ 12a:	80 e0       	ldi	r24, 0x00	; 0
+ 12c:	90 e0       	ldi	r25, 0x00	; 0
+		{
+			bitVal = 0;
+		}
+		
+		code = code << 1;
+		code |= bitVal;
+ 12e:	e1 e0       	ldi	r30, 0x01	; 1
+ 130:	50 e0       	ldi	r21, 0x00	; 0
+
+	// Read 32 data bits
+	for(i = 0; i < 12; i++)
+	{
+		
+		while(IR_LOW);
+ 132:	82 9b       	sbis	0x10, 2	; 16
+ 134:	fe cf       	rjmp	.-4      	; 0x132 <protocolSIRP+0xa>
+		while(IR_HIGH);
+ 136:	82 99       	sbic	0x10, 2	; 16
+ 138:	fe cf       	rjmp	.-4      	; 0x136 <protocolSIRP+0xe>
+
+		time = TCNT1;
+ 13a:	6c b5       	in	r22, 0x2c	; 44
+ 13c:	7d b5       	in	r23, 0x2d	; 45
+		TCNT1 = 0;
+ 13e:	1d bc       	out	0x2d, r1	; 45
+ 140:	1c bc       	out	0x2c, r1	; 44
+		else 
+		{
+			bitVal = 0;
+		}
+		
+		code = code << 1;
+ 142:	9c 01       	movw	r18, r24
+ 144:	22 0f       	add	r18, r18
+ 146:	33 1f       	adc	r19, r19
+		code |= bitVal;
+ 148:	8e 2f       	mov	r24, r30
+ 14a:	95 2f       	mov	r25, r21
+ 14c:	6c 36       	cpi	r22, 0x6C	; 108
+ 14e:	7b 40       	sbci	r23, 0x0B	; 11
+ 150:	10 f4       	brcc	.+4      	; 0x156 <protocolSIRP+0x2e>
+ 152:	80 e0       	ldi	r24, 0x00	; 0
+ 154:	90 e0       	ldi	r25, 0x00	; 0
+ 156:	82 2b       	or	r24, r18
+ 158:	93 2b       	or	r25, r19
+ 15a:	41 50       	subi	r20, 0x01	; 1
+	static unsigned int lastCode = 0;
+
+	code = 0;
+
+	// Read 32 data bits
+	for(i = 0; i < 12; i++)
+ 15c:	51 f7       	brne	.-44     	; 0x132 <protocolSIRP+0xa>
+		}
+		
+		code = code << 1;
+		code |= bitVal;
+	}
+	if(code == lastCode)
+ 15e:	20 91 65 00 	lds	r18, 0x0065	; 0x800065 <lastCode.1963>
+ 162:	30 91 66 00 	lds	r19, 0x0066	; 0x800066 <lastCode.1963+0x1>
+ 166:	82 17       	cp	r24, r18
+ 168:	93 07       	cpc	r25, r19
+ 16a:	69 f4       	brne	.+26     	; 0x186 <protocolSIRP+0x5e>
+	{
+		if((repeatCount++) == SIRP_REPEAT_RATE)
+ 16c:	20 91 67 00 	lds	r18, 0x0067	; 0x800067 <repeatCount>
+ 170:	25 30       	cpi	r18, 0x05	; 5
+ 172:	31 f0       	breq	.+12     	; 0x180 <protocolSIRP+0x58>
+ 174:	2f 5f       	subi	r18, 0xFF	; 255
+ 176:	20 93 67 00 	sts	0x0067, r18	; 0x800067 <repeatCount>
+			repeatCount = 0;
+			return code;
+		} 
+		else 
+		{
+			return 0;
+ 17a:	80 e0       	ldi	r24, 0x00	; 0
+ 17c:	90 e0       	ldi	r25, 0x00	; 0
+ 17e:	08 95       	ret
+	}
+	if(code == lastCode)
+	{
+		if((repeatCount++) == SIRP_REPEAT_RATE)
+		{
+			repeatCount = 0;
+ 180:	10 92 67 00 	sts	0x0067, r1	; 0x800067 <repeatCount>
+			return code;
+ 184:	08 95       	ret
+		else 
+		{
+			return 0;
+		}
+	}
+	lastCode = code;
+ 186:	90 93 66 00 	sts	0x0066, r25	; 0x800066 <lastCode.1963+0x1>
+ 18a:	80 93 65 00 	sts	0x0065, r24	; 0x800065 <lastCode.1963>
+	return code;
+}
+ 18e:	08 95       	ret
+
+00000190 <protocolRC5>:
+	static unsigned char lastRepeatBit = 0;
+
+	code = 0;
+
+	// 3160 us offset from the first pulse
+	while(TCNT1 < CONV(3160));
+ 190:	8c b5       	in	r24, 0x2c	; 44
+ 192:	9d b5       	in	r25, 0x2d	; 45
+ 194:	89 3b       	cpi	r24, 0xB9	; 185
+ 196:	98 41       	sbci	r25, 0x18	; 24
+ 198:	d8 f3       	brcs	.-10     	; 0x190 <protocolRC5>
+	TCNT1 = 0;
+ 19a:	1d bc       	out	0x2d, r1	; 45
+ 19c:	1c bc       	out	0x2c, r1	; 44
+
+	// Read "repeat" bit
+	repeatBit = IR_VAL;
+ 19e:	50 b3       	in	r21, 0x10	; 16
+ 1a0:	54 70       	andi	r21, 0x04	; 4
+
+	// Move 1760us to the first data bit
+	while(TCNT1 < CONV(1760));
+ 1a2:	8c b5       	in	r24, 0x2c	; 44
+ 1a4:	9d b5       	in	r25, 0x2d	; 45
+ 1a6:	81 3c       	cpi	r24, 0xC1	; 193
+ 1a8:	9d 40       	sbci	r25, 0x0D	; 13
+ 1aa:	d8 f3       	brcs	.-10     	; 0x1a2 <protocolRC5+0x12>
+	TCNT1 = 0;
+ 1ac:	1d bc       	out	0x2d, r1	; 45
+ 1ae:	1c bc       	out	0x2c, r1	; 44
+ 1b0:	4c e0       	ldi	r20, 0x0C	; 12
+	unsigned char i;
+
+	static unsigned int lastCode = 0;
+	static unsigned char lastRepeatBit = 0;
+
+	code = 0;
+ 1b2:	20 e0       	ldi	r18, 0x00	; 0
+ 1b4:	30 e0       	ldi	r19, 0x00	; 0
+
+	// Read 12 data bits (5 address & 7 command)
+	for(i = 0; i < 12; i++)
+	{
+
+		code = code << 1;
+ 1b6:	22 0f       	add	r18, r18
+ 1b8:	33 1f       	adc	r19, r19
+
+		if(IR_VAL)
+ 1ba:	82 99       	sbic	0x10, 2	; 16
+		code |= 0x0001;
+ 1bc:	21 60       	ori	r18, 0x01	; 1
+
+		while(TCNT1 < CONV(1760));
+ 1be:	8c b5       	in	r24, 0x2c	; 44
+ 1c0:	9d b5       	in	r25, 0x2d	; 45
+ 1c2:	81 3c       	cpi	r24, 0xC1	; 193
+ 1c4:	9d 40       	sbci	r25, 0x0D	; 13
+ 1c6:	d8 f3       	brcs	.-10     	; 0x1be <protocolRC5+0x2e>
+		TCNT1 = 0;
+ 1c8:	1d bc       	out	0x2d, r1	; 45
+ 1ca:	1c bc       	out	0x2c, r1	; 44
+ 1cc:	41 50       	subi	r20, 0x01	; 1
+	// Move 1760us to the first data bit
+	while(TCNT1 < CONV(1760));
+	TCNT1 = 0;
+
+	// Read 12 data bits (5 address & 7 command)
+	for(i = 0; i < 12; i++)
+ 1ce:	99 f7       	brne	.-26     	; 0x1b6 <protocolRC5+0x26>
+		while(TCNT1 < CONV(1760));
+		TCNT1 = 0;
+
+	}
+
+	if(code == lastCode && repeatBit == lastRepeatBit)
+ 1d0:	80 91 63 00 	lds	r24, 0x0063	; 0x800063 <lastCode.1978>
+ 1d4:	90 91 64 00 	lds	r25, 0x0064	; 0x800064 <lastCode.1978+0x1>
+ 1d8:	28 17       	cp	r18, r24
+ 1da:	39 07       	cpc	r19, r25
+ 1dc:	99 f4       	brne	.+38     	; 0x204 <protocolRC5+0x74>
+ 1de:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <lastRepeatBit.1979>
+ 1e2:	58 13       	cpse	r21, r24
+ 1e4:	12 c0       	rjmp	.+36     	; 0x20a <protocolRC5+0x7a>
+	{
+		if(++repeatCount == RC5_REPEAT_RATE)
+ 1e6:	80 91 67 00 	lds	r24, 0x0067	; 0x800067 <repeatCount>
+ 1ea:	8f 5f       	subi	r24, 0xFF	; 255
+ 1ec:	85 30       	cpi	r24, 0x05	; 5
+ 1ee:	29 f0       	breq	.+10     	; 0x1fa <protocolRC5+0x6a>
+ 1f0:	80 93 67 00 	sts	0x0067, r24	; 0x800067 <repeatCount>
+			repeatCount = 0;
+			return code;
+		} 
+		else 
+		{
+			return 0;
+ 1f4:	80 e0       	ldi	r24, 0x00	; 0
+ 1f6:	90 e0       	ldi	r25, 0x00	; 0
+ 1f8:	08 95       	ret
+
+	if(code == lastCode && repeatBit == lastRepeatBit)
+	{
+		if(++repeatCount == RC5_REPEAT_RATE)
+		{
+			repeatCount = 0;
+ 1fa:	10 92 67 00 	sts	0x0067, r1	; 0x800067 <repeatCount>
+			return code;
+ 1fe:	82 2f       	mov	r24, r18
+ 200:	93 2f       	mov	r25, r19
+ 202:	08 95       	ret
+		else 
+		{
+			return 0;
+		}
+	}
+	if(repeatBit != lastRepeatBit)
+ 204:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <lastRepeatBit.1979>
+ 208:	58 13       	cpse	r21, r24
+	{
+		repeatCount = 0;
+ 20a:	10 92 67 00 	sts	0x0067, r1	; 0x800067 <repeatCount>
+	}
+	lastCode = code;
+ 20e:	30 93 64 00 	sts	0x0064, r19	; 0x800064 <lastCode.1978+0x1>
+ 212:	20 93 63 00 	sts	0x0063, r18	; 0x800063 <lastCode.1978>
+	lastRepeatBit = repeatBit;
+ 216:	50 93 62 00 	sts	0x0062, r21	; 0x800062 <lastRepeatBit.1979>
+	return code;
+ 21a:	82 2f       	mov	r24, r18
+ 21c:	93 2f       	mov	r25, r19
+}
+ 21e:	08 95       	ret
+
+00000220 <protocolNEC>:
+	unsigned char i;
+
+	static unsigned int lastCode = 0;
+
+	//TCNT1 = 0;
+	while(IR_HIGH);
+ 220:	82 99       	sbic	0x10, 2	; 16
+ 222:	fe cf       	rjmp	.-4      	; 0x220 <protocolNEC>
+
+	time = TCNT1;
+ 224:	8c b5       	in	r24, 0x2c	; 44
+ 226:	9d b5       	in	r25, 0x2d	; 45
+	TCNT1 = 0;
+ 228:	1d bc       	out	0x2d, r1	; 45
+ 22a:	1c bc       	out	0x2c, r1	; 44
+
+	// 4200 us
+	if(time > CONV(4200))
+ 22c:	84 3d       	cpi	r24, 0xD4	; 212
+ 22e:	90 42       	sbci	r25, 0x20	; 32
+ 230:	40 f0       	brcs	.+16     	; 0x242 <protocolNEC+0x22>
+	{
+		// regular button press
+		repeatCount = 0;
+ 232:	10 92 67 00 	sts	0x0067, r1	; 0x800067 <repeatCount>
+		return 0;
+	}
+	code = 0;
+	
+	// Read 32 data bits
+	for(i = 0; i < 32; i++)
+ 236:	80 e0       	ldi	r24, 0x00	; 0
+			repeatCount = 0;
+			return lastCode;
+		}
+		return 0;
+	}
+	code = 0;
+ 238:	60 e0       	ldi	r22, 0x00	; 0
+ 23a:	70 e0       	ldi	r23, 0x00	; 0
+
+		time = TCNT1;
+		TCNT1 = 0;
+		
+		// 1650 us
+		if(time > CONV(1650))
+ 23c:	51 e0       	ldi	r21, 0x01	; 1
+ 23e:	e0 e0       	ldi	r30, 0x00	; 0
+ 240:	11 c0       	rjmp	.+34     	; 0x264 <protocolNEC+0x44>
+	} 
+	else 
+	{
+		// hold button press
+		// send last keycode
+		if(++repeatCount == NEC_REPEAT_RATE)
+ 242:	80 91 67 00 	lds	r24, 0x0067	; 0x800067 <repeatCount>
+ 246:	8f 5f       	subi	r24, 0xFF	; 255
+ 248:	85 30       	cpi	r24, 0x05	; 5
+ 24a:	29 f0       	breq	.+10     	; 0x256 <protocolNEC+0x36>
+ 24c:	80 93 67 00 	sts	0x0067, r24	; 0x800067 <repeatCount>
+		{
+			repeatCount = 0;
+			return lastCode;
+		}
+		return 0;
+ 250:	80 e0       	ldi	r24, 0x00	; 0
+ 252:	90 e0       	ldi	r25, 0x00	; 0
+ 254:	08 95       	ret
+	{
+		// hold button press
+		// send last keycode
+		if(++repeatCount == NEC_REPEAT_RATE)
+		{
+			repeatCount = 0;
+ 256:	10 92 67 00 	sts	0x0067, r1	; 0x800067 <repeatCount>
+			return lastCode;
+ 25a:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__DATA_REGION_ORIGIN__>
+ 25e:	90 91 61 00 	lds	r25, 0x0061	; 0x800061 <__DATA_REGION_ORIGIN__+0x1>
+ 262:	08 95       	ret
+	code = 0;
+	
+	// Read 32 data bits
+	for(i = 0; i < 32; i++)
+	{
+		while(IR_LOW);
+ 264:	82 9b       	sbis	0x10, 2	; 16
+ 266:	fe cf       	rjmp	.-4      	; 0x264 <protocolNEC+0x44>
+		while(IR_HIGH);
+ 268:	82 99       	sbic	0x10, 2	; 16
+ 26a:	fe cf       	rjmp	.-4      	; 0x268 <protocolNEC+0x48>
+
+		time = TCNT1;
+ 26c:	2c b5       	in	r18, 0x2c	; 44
+ 26e:	3d b5       	in	r19, 0x2d	; 45
+		TCNT1 = 0;
+ 270:	1d bc       	out	0x2d, r1	; 45
+ 272:	1c bc       	out	0x2c, r1	; 44
+		
+		// 1650 us
+		if(time > CONV(1650))
+ 274:	45 2f       	mov	r20, r21
+ 276:	25 3e       	cpi	r18, 0xE5	; 229
+ 278:	3c 40       	sbci	r19, 0x0C	; 12
+ 27a:	08 f4       	brcc	.+2      	; 0x27e <protocolNEC+0x5e>
+ 27c:	4e 2f       	mov	r20, r30
+		} 
+		else 
+		{
+			bitVal = 0;
+		}
+		if((i < 8) || (i >= 16 && i < 24))
+ 27e:	98 2f       	mov	r25, r24
+ 280:	9f 7e       	andi	r25, 0xEF	; 239
+ 282:	98 30       	cpi	r25, 0x08	; 8
+ 284:	18 f4       	brcc	.+6      	; 0x28c <protocolNEC+0x6c>
+		{
+			code = code << 1;
+ 286:	66 0f       	add	r22, r22
+ 288:	77 1f       	adc	r23, r23
+			code |= bitVal;
+ 28a:	64 2b       	or	r22, r20
+		return 0;
+	}
+	code = 0;
+	
+	// Read 32 data bits
+	for(i = 0; i < 32; i++)
+ 28c:	8f 5f       	subi	r24, 0xFF	; 255
+ 28e:	80 32       	cpi	r24, 0x20	; 32
+ 290:	49 f7       	brne	.-46     	; 0x264 <protocolNEC+0x44>
+		{
+			code = code << 1;
+			code |= bitVal;
+		}
+	}
+	lastCode = code;
+ 292:	70 93 61 00 	sts	0x0061, r23	; 0x800061 <__DATA_REGION_ORIGIN__+0x1>
+ 296:	60 93 60 00 	sts	0x0060, r22	; 0x800060 <__DATA_REGION_ORIGIN__>
+	return code;
+ 29a:	86 2f       	mov	r24, r22
+ 29c:	97 2f       	mov	r25, r23
+}
+ 29e:	08 95       	ret
+
+000002a0 <main>:
+	unsigned int code = 0;
+	unsigned int time;
+
+	unsigned char protocolLetter;
+	
+	init();
+ 2a0:	0e 94 8b 00 	call	0x116	; 0x116 <init>
+	
+
+	savedCode = eeprom_read_word(&eeSavedCode);
+ 2a4:	80 e0       	ldi	r24, 0x00	; 0
+ 2a6:	90 e0       	ldi	r25, 0x00	; 0
+ 2a8:	0e 94 b4 01 	call	0x368	; 0x368 <eeprom_read_word>
+ 2ac:	6c 01       	movw	r12, r24
+
+int main(void)
+{
+
+	unsigned int savedCode;
+	unsigned int code = 0;
+ 2ae:	c0 e0       	ldi	r28, 0x00	; 0
+ 2b0:	d0 e0       	ldi	r29, 0x00	; 0
+
+	while(1)
+	{	
+		PORTC = 0x00;
+		_delay_ms(500);
+		PORTC = 0xFF;
+ 2b2:	ff 24       	eor	r15, r15
+ 2b4:	fa 94       	dec	r15
+
+	savedCode = eeprom_read_word(&eeSavedCode);
+
+	while(1)
+	{	
+		PORTC = 0x00;
+ 2b6:	15 ba       	out	0x15, r1	; 21
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 2b8:	2f ef       	ldi	r18, 0xFF	; 255
+ 2ba:	49 e6       	ldi	r20, 0x69	; 105
+ 2bc:	88 e1       	ldi	r24, 0x18	; 24
+ 2be:	21 50       	subi	r18, 0x01	; 1
+ 2c0:	40 40       	sbci	r20, 0x00	; 0
+ 2c2:	80 40       	sbci	r24, 0x00	; 0
+ 2c4:	e1 f7       	brne	.-8      	; 0x2be <main+0x1e>
+ 2c6:	00 c0       	rjmp	.+0      	; 0x2c8 <main+0x28>
+ 2c8:	00 00       	nop
+		_delay_ms(500);
+		PORTC = 0xFF;
+ 2ca:	f5 ba       	out	0x15, r15	; 21
+ 2cc:	9f ef       	ldi	r25, 0xFF	; 255
+ 2ce:	29 e6       	ldi	r18, 0x69	; 105
+ 2d0:	48 e1       	ldi	r20, 0x18	; 24
+ 2d2:	91 50       	subi	r25, 0x01	; 1
+ 2d4:	20 40       	sbci	r18, 0x00	; 0
+ 2d6:	40 40       	sbci	r20, 0x00	; 0
+ 2d8:	e1 f7       	brne	.-8      	; 0x2d2 <main+0x32>
+ 2da:	00 c0       	rjmp	.+0      	; 0x2dc <main+0x3c>
+ 2dc:	00 00       	nop
+		_delay_ms(500);
+		while(IR_HIGH);
+ 2de:	82 99       	sbic	0x10, 2	; 16
+ 2e0:	fe cf       	rjmp	.-4      	; 0x2de <main+0x3e>
+		TCNT1 = 0;
+ 2e2:	1d bc       	out	0x2d, r1	; 45
+ 2e4:	1c bc       	out	0x2c, r1	; 44
+		while(IR_LOW);
+ 2e6:	82 9b       	sbis	0x10, 2	; 16
+ 2e8:	fe cf       	rjmp	.-4      	; 0x2e6 <main+0x46>
+		
+		time = TCNT1;
+ 2ea:	8c b5       	in	r24, 0x2c	; 44
+ 2ec:	9d b5       	in	r25, 0x2d	; 45
+		
+		TCNT1 = 0;
+ 2ee:	1d bc       	out	0x2d, r1	; 45
+ 2f0:	1c bc       	out	0x2c, r1	; 44
+
+		// Initial pulse length between 9ms and 9.3ms => NEC protocol
+		if(time > CONV(9000) && time < CONV(9300)) {
+ 2f2:	9c 01       	movw	r18, r24
+ 2f4:	23 56       	subi	r18, 0x63	; 99
+ 2f6:	36 44       	sbci	r19, 0x46	; 70
+ 2f8:	20 3a       	cpi	r18, 0xA0	; 160
+ 2fa:	32 40       	sbci	r19, 0x02	; 2
+ 2fc:	30 f4       	brcc	.+12     	; 0x30a <main+0x6a>
+			protocolLetter = 'N';
+			code = protocolNEC(code);
+ 2fe:	ce 01       	movw	r24, r28
+ 300:	0e 94 10 01 	call	0x220	; 0x220 <protocolNEC>
+ 304:	ec 01       	movw	r28, r24
+		
+		TCNT1 = 0;
+
+		// Initial pulse length between 9ms and 9.3ms => NEC protocol
+		if(time > CONV(9000) && time < CONV(9300)) {
+			protocolLetter = 'N';
+ 306:	1e e4       	ldi	r17, 0x4E	; 78
+ 308:	16 c0       	rjmp	.+44     	; 0x336 <main+0x96>
+			code = protocolNEC(code);
+
+			// Initial pulse length between 0.8ms and 1.2ms => RC5 protocol
+			} else if(time > CONV(800) && time < CONV(1200)) {
+ 30a:	9c 01       	movw	r18, r24
+ 30c:	21 54       	subi	r18, 0x41	; 65
+ 30e:	36 40       	sbci	r19, 0x06	; 6
+ 310:	2f 31       	cpi	r18, 0x1F	; 31
+ 312:	33 40       	sbci	r19, 0x03	; 3
+ 314:	30 f4       	brcc	.+12     	; 0x322 <main+0x82>
+			protocolLetter = 'R';
+			code = protocolRC5(code);
+ 316:	ce 01       	movw	r24, r28
+ 318:	0e 94 c8 00 	call	0x190	; 0x190 <protocolRC5>
+ 31c:	ec 01       	movw	r28, r24
+			protocolLetter = 'N';
+			code = protocolNEC(code);
+
+			// Initial pulse length between 0.8ms and 1.2ms => RC5 protocol
+			} else if(time > CONV(800) && time < CONV(1200)) {
+			protocolLetter = 'R';
+ 31e:	12 e5       	ldi	r17, 0x52	; 82
+ 320:	0a c0       	rjmp	.+20     	; 0x336 <main+0x96>
+			code = protocolRC5(code);
+
+			// Initial pulse length between 2ms and 2.8ms => SIRP protocol
+			} else if(time > CONV(2000) && time < CONV(2800)) {
+ 322:	81 5a       	subi	r24, 0xA1	; 161
+ 324:	9f 40       	sbci	r25, 0x0F	; 15
+ 326:	81 34       	cpi	r24, 0x41	; 65
+ 328:	96 40       	sbci	r25, 0x06	; 6
+ 32a:	28 f6       	brcc	.-118    	; 0x2b6 <main+0x16>
+			protocolLetter = 'S';
+			code = protocolSIRP(code);
+ 32c:	ce 01       	movw	r24, r28
+ 32e:	0e 94 94 00 	call	0x128	; 0x128 <protocolSIRP>
+ 332:	ec 01       	movw	r28, r24
+			protocolLetter = 'R';
+			code = protocolRC5(code);
+
+			// Initial pulse length between 2ms and 2.8ms => SIRP protocol
+			} else if(time > CONV(2000) && time < CONV(2800)) {
+			protocolLetter = 'S';
+ 334:	13 e5       	ldi	r17, 0x53	; 83
+			} else {
+			continue;
+		}
+
+		// If code is wrong, we get 0
+		if(code == 0)
+ 336:	20 97       	sbiw	r28, 0x00	; 0
+ 338:	09 f4       	brne	.+2      	; 0x33c <main+0x9c>
+ 33a:	bd cf       	rjmp	.-134    	; 0x2b6 <main+0x16>
+		{
+			continue;
+		}
+		// Learning mode
+		if((PINB & (1 << PINB0)) == 0)
+ 33c:	b0 99       	sbic	0x16, 0	; 22
+ 33e:	07 c0       	rjmp	.+14     	; 0x34e <main+0xae>
+		{
+			savedCode = code;
+			eeprom_write_word(&eeSavedCode, savedCode);
+ 340:	be 01       	movw	r22, r28
+ 342:	80 e0       	ldi	r24, 0x00	; 0
+ 344:	90 e0       	ldi	r25, 0x00	; 0
+ 346:	0e 94 ba 01 	call	0x374	; 0x374 <eeprom_write_word>
+			continue;
+		}
+		// Learning mode
+		if((PINB & (1 << PINB0)) == 0)
+		{
+			savedCode = code;
+ 34a:	6e 01       	movw	r12, r28
+			eeprom_write_word(&eeSavedCode, savedCode);
+			continue;
+ 34c:	b4 cf       	rjmp	.-152    	; 0x2b6 <main+0x16>
+		}
+
+		// Code match
+		if(code == savedCode)
+ 34e:	cc 16       	cp	r12, r28
+ 350:	dd 06       	cpc	r13, r29
+ 352:	19 f4       	brne	.+6      	; 0x35a <main+0xba>
+		{
+			codeMatch(code);
+ 354:	c6 01       	movw	r24, r12
+ 356:	0e 94 7e 00 	call	0xfc	; 0xfc <codeMatch>
+		}
+
+		// Send protocol letter and code over UART
+		uartSend(protocolLetter);
+ 35a:	81 2f       	mov	r24, r17
+ 35c:	0e 94 47 00 	call	0x8e	; 0x8e <uartSend>
+		uartSendCode(code);
+ 360:	ce 01       	movw	r24, r28
+ 362:	0e 94 55 00 	call	0xaa	; 0xaa <uartSendCode>
+ 366:	a7 cf       	rjmp	.-178    	; 0x2b6 <main+0x16>
+
+00000368 <eeprom_read_word>:
+ 368:	a8 e1       	ldi	r26, 0x18	; 24
+ 36a:	b0 e0       	ldi	r27, 0x00	; 0
+ 36c:	42 e0       	ldi	r20, 0x02	; 2
+ 36e:	50 e0       	ldi	r21, 0x00	; 0
+ 370:	0c 94 c1 01 	jmp	0x382	; 0x382 <eeprom_read_blraw>
+
+00000374 <eeprom_write_word>:
+ 374:	0e 94 cf 01 	call	0x39e	; 0x39e <eeprom_write_byte>
+ 378:	27 2f       	mov	r18, r23
+ 37a:	0c 94 d0 01 	jmp	0x3a0	; 0x3a0 <eeprom_write_r18>
+
+0000037e <eeprom_read_block>:
+ 37e:	dc 01       	movw	r26, r24
+ 380:	cb 01       	movw	r24, r22
+
+00000382 <eeprom_read_blraw>:
+ 382:	fc 01       	movw	r30, r24
+ 384:	e1 99       	sbic	0x1c, 1	; 28
+ 386:	fe cf       	rjmp	.-4      	; 0x384 <eeprom_read_blraw+0x2>
+ 388:	06 c0       	rjmp	.+12     	; 0x396 <eeprom_read_blraw+0x14>
+ 38a:	ff bb       	out	0x1f, r31	; 31
+ 38c:	ee bb       	out	0x1e, r30	; 30
+ 38e:	e0 9a       	sbi	0x1c, 0	; 28
+ 390:	31 96       	adiw	r30, 0x01	; 1
+ 392:	0d b2       	in	r0, 0x1d	; 29
+ 394:	0d 92       	st	X+, r0
+ 396:	41 50       	subi	r20, 0x01	; 1
+ 398:	50 40       	sbci	r21, 0x00	; 0
+ 39a:	b8 f7       	brcc	.-18     	; 0x38a <eeprom_read_blraw+0x8>
+ 39c:	08 95       	ret
+
+0000039e <eeprom_write_byte>:
+ 39e:	26 2f       	mov	r18, r22
+
+000003a0 <eeprom_write_r18>:
+ 3a0:	e1 99       	sbic	0x1c, 1	; 28
+ 3a2:	fe cf       	rjmp	.-4      	; 0x3a0 <eeprom_write_r18>
+ 3a4:	9f bb       	out	0x1f, r25	; 31
+ 3a6:	8e bb       	out	0x1e, r24	; 30
+ 3a8:	2d bb       	out	0x1d, r18	; 29
+ 3aa:	0f b6       	in	r0, 0x3f	; 63
+ 3ac:	f8 94       	cli
+ 3ae:	e2 9a       	sbi	0x1c, 2	; 28
+ 3b0:	e1 9a       	sbi	0x1c, 1	; 28
+ 3b2:	0f be       	out	0x3f, r0	; 63
+ 3b4:	01 96       	adiw	r24, 0x01	; 1
+ 3b6:	08 95       	ret
+
+000003b8 <_exit>:
+ 3b8:	f8 94       	cli
+
+000003ba <__stop_program>:
+ 3ba:	ff cf       	rjmp	.-2      	; 0x3ba <__stop_program>

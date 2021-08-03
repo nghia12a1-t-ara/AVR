@@ -1,0 +1,308 @@
+
+Project3.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000001a6  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  000001fa  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  000001fa  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000022c  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 000000a8  00000000  00000000  00000268  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000cd9  00000000  00000000  00000310  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000007f8  00000000  00000000  00000fe9  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   0000063c  00000000  00000000  000017e1  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000124  00000000  00000000  00001e20  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    000003ee  00000000  00000000  00001f44  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000586  00000000  00000000  00002332  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000078  00000000  00000000  000028b8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   8:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  18:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  28:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  34:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  38:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  3c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  40:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  44:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  48:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  4c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  50:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_clear_bss>:
+  60:	20 e0       	ldi	r18, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	01 c0       	rjmp	.+2      	; 0x6a <.do_clear_bss_start>
+
+00000068 <.do_clear_bss_loop>:
+  68:	1d 92       	st	X+, r1
+
+0000006a <.do_clear_bss_start>:
+  6a:	a0 36       	cpi	r26, 0x60	; 96
+  6c:	b2 07       	cpc	r27, r18
+  6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
+  70:	0e 94 b5 00 	call	0x16a	; 0x16a <main>
+  74:	0c 94 d1 00 	jmp	0x1a2	; 0x1a2 <_exit>
+
+00000078 <__bad_interrupt>:
+  78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000007c <LCD_Command>:
+	if (row == 0 && pos<16)
+	LCD_Command((pos & 0x0F)|0x80);			/* Command of first row and required position<16 */
+	else if (row == 1 && pos<16)
+	LCD_Command((pos & 0x0F)|0xC0);			/* Command of first row and required position<16 */
+	LCD_String(str);						/* Call LCD string function */
+}
+  7c:	98 b3       	in	r25, 0x18	; 24
+  7e:	9f 70       	andi	r25, 0x0F	; 15
+  80:	28 2f       	mov	r18, r24
+  82:	20 7f       	andi	r18, 0xF0	; 240
+  84:	92 2b       	or	r25, r18
+  86:	98 bb       	out	0x18, r25	; 24
+  88:	c0 98       	cbi	0x18, 0	; 24
+  8a:	c1 9a       	sbi	0x18, 1	; 24
+  8c:	35 e0       	ldi	r19, 0x05	; 5
+  8e:	3a 95       	dec	r19
+  90:	f1 f7       	brne	.-4      	; 0x8e <LCD_Command+0x12>
+  92:	00 00       	nop
+  94:	c1 98       	cbi	0x18, 1	; 24
+  96:	ef e1       	ldi	r30, 0x1F	; 31
+  98:	f3 e0       	ldi	r31, 0x03	; 3
+  9a:	31 97       	sbiw	r30, 0x01	; 1
+  9c:	f1 f7       	brne	.-4      	; 0x9a <LCD_Command+0x1e>
+  9e:	00 c0       	rjmp	.+0      	; 0xa0 <LCD_Command+0x24>
+  a0:	00 00       	nop
+  a2:	28 b3       	in	r18, 0x18	; 24
+  a4:	2f 70       	andi	r18, 0x0F	; 15
+  a6:	f0 e1       	ldi	r31, 0x10	; 16
+  a8:	8f 9f       	mul	r24, r31
+  aa:	c0 01       	movw	r24, r0
+  ac:	11 24       	eor	r1, r1
+  ae:	82 2b       	or	r24, r18
+  b0:	88 bb       	out	0x18, r24	; 24
+  b2:	c1 9a       	sbi	0x18, 1	; 24
+  b4:	35 e0       	ldi	r19, 0x05	; 5
+  b6:	3a 95       	dec	r19
+  b8:	f1 f7       	brne	.-4      	; 0xb6 <LCD_Command+0x3a>
+  ba:	00 00       	nop
+  bc:	c1 98       	cbi	0x18, 1	; 24
+  be:	8f e3       	ldi	r24, 0x3F	; 63
+  c0:	9f e1       	ldi	r25, 0x1F	; 31
+  c2:	01 97       	sbiw	r24, 0x01	; 1
+  c4:	f1 f7       	brne	.-4      	; 0xc2 <LCD_Command+0x46>
+  c6:	00 c0       	rjmp	.+0      	; 0xc8 <LCD_Command+0x4c>
+  c8:	00 00       	nop
+  ca:	08 95       	ret
+
+000000cc <LCD_Init>:
+  cc:	8f ef       	ldi	r24, 0xFF	; 255
+  ce:	87 bb       	out	0x17, r24	; 23
+  d0:	2f ef       	ldi	r18, 0xFF	; 255
+  d2:	89 ef       	ldi	r24, 0xF9	; 249
+  d4:	90 e0       	ldi	r25, 0x00	; 0
+  d6:	21 50       	subi	r18, 0x01	; 1
+  d8:	80 40       	sbci	r24, 0x00	; 0
+  da:	90 40       	sbci	r25, 0x00	; 0
+  dc:	e1 f7       	brne	.-8      	; 0xd6 <LCD_Init+0xa>
+  de:	00 c0       	rjmp	.+0      	; 0xe0 <LCD_Init+0x14>
+  e0:	00 00       	nop
+  e2:	82 e0       	ldi	r24, 0x02	; 2
+  e4:	0e 94 3e 00 	call	0x7c	; 0x7c <LCD_Command>
+  e8:	88 e2       	ldi	r24, 0x28	; 40
+  ea:	0e 94 3e 00 	call	0x7c	; 0x7c <LCD_Command>
+  ee:	8c e0       	ldi	r24, 0x0C	; 12
+  f0:	0e 94 3e 00 	call	0x7c	; 0x7c <LCD_Command>
+  f4:	86 e0       	ldi	r24, 0x06	; 6
+  f6:	0e 94 3e 00 	call	0x7c	; 0x7c <LCD_Command>
+  fa:	81 e0       	ldi	r24, 0x01	; 1
+  fc:	0e 94 3e 00 	call	0x7c	; 0x7c <LCD_Command>
+ 100:	8f e3       	ldi	r24, 0x3F	; 63
+ 102:	9f e1       	ldi	r25, 0x1F	; 31
+ 104:	01 97       	sbiw	r24, 0x01	; 1
+ 106:	f1 f7       	brne	.-4      	; 0x104 <LCD_Init+0x38>
+ 108:	00 c0       	rjmp	.+0      	; 0x10a <LCD_Init+0x3e>
+ 10a:	00 00       	nop
+ 10c:	08 95       	ret
+
+0000010e <LCD_Clear>:
+
+void LCD_Clear()
+{
+	LCD_Command (0x01);		/* Clear display */
+ 10e:	81 e0       	ldi	r24, 0x01	; 1
+ 110:	0e 94 3e 00 	call	0x7c	; 0x7c <LCD_Command>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 114:	8f e3       	ldi	r24, 0x3F	; 63
+ 116:	9f e1       	ldi	r25, 0x1F	; 31
+ 118:	01 97       	sbiw	r24, 0x01	; 1
+ 11a:	f1 f7       	brne	.-4      	; 0x118 <LCD_Clear+0xa>
+ 11c:	00 c0       	rjmp	.+0      	; 0x11e <LCD_Clear+0x10>
+ 11e:	00 00       	nop
+	_delay_ms(2);
+	LCD_Command (0x80);		/* Cursor at home position */
+ 120:	80 e8       	ldi	r24, 0x80	; 128
+ 122:	0e 94 3e 00 	call	0x7c	; 0x7c <LCD_Command>
+ 126:	08 95       	ret
+
+00000128 <Ktranutbam>:
+	}
+}
+
+void Ktranutbam()
+{
+	if(btn1)
+ 128:	84 99       	sbic	0x10, 4	; 16
+ 12a:	04 c0       	rjmp	.+8      	; 0x134 <Ktranutbam+0xc>
+	{
+		PORTB ^= (1 << PB0);
+ 12c:	98 b3       	in	r25, 0x18	; 24
+ 12e:	81 e0       	ldi	r24, 0x01	; 1
+ 130:	89 27       	eor	r24, r25
+ 132:	88 bb       	out	0x18, r24	; 24
+	}
+	while(btn1);
+ 134:	84 9b       	sbis	0x10, 4	; 16
+ 136:	fe cf       	rjmp	.-4      	; 0x134 <Ktranutbam+0xc>
+	if(btn2)
+ 138:	85 99       	sbic	0x10, 5	; 16
+ 13a:	04 c0       	rjmp	.+8      	; 0x144 <Ktranutbam+0x1c>
+	{
+		PORTB ^= (1 << PB1);
+ 13c:	98 b3       	in	r25, 0x18	; 24
+ 13e:	82 e0       	ldi	r24, 0x02	; 2
+ 140:	89 27       	eor	r24, r25
+ 142:	88 bb       	out	0x18, r24	; 24
+	}
+	while(btn2);
+ 144:	85 9b       	sbis	0x10, 5	; 16
+ 146:	fe cf       	rjmp	.-4      	; 0x144 <Ktranutbam+0x1c>
+	if(btn3)
+ 148:	86 99       	sbic	0x10, 6	; 16
+ 14a:	04 c0       	rjmp	.+8      	; 0x154 <Ktranutbam+0x2c>
+	{
+		PORTB ^= (1 << PB2);
+ 14c:	98 b3       	in	r25, 0x18	; 24
+ 14e:	84 e0       	ldi	r24, 0x04	; 4
+ 150:	89 27       	eor	r24, r25
+ 152:	88 bb       	out	0x18, r24	; 24
+	}
+	while(btn3);
+ 154:	86 9b       	sbis	0x10, 6	; 16
+ 156:	fe cf       	rjmp	.-4      	; 0x154 <Ktranutbam+0x2c>
+	if(btn4)
+ 158:	87 99       	sbic	0x10, 7	; 16
+ 15a:	04 c0       	rjmp	.+8      	; 0x164 <Ktranutbam+0x3c>
+	{
+		PORTB ^= (1 << PB3);
+ 15c:	98 b3       	in	r25, 0x18	; 24
+ 15e:	88 e0       	ldi	r24, 0x08	; 8
+ 160:	89 27       	eor	r24, r25
+ 162:	88 bb       	out	0x18, r24	; 24
+	}
+	while(btn4);
+ 164:	87 9b       	sbis	0x10, 7	; 16
+ 166:	fe cf       	rjmp	.-4      	; 0x164 <Ktranutbam+0x3c>
+}
+ 168:	08 95       	ret
+
+0000016a <main>:
+// 	}
+// }
+
+int main(void)
+{
+	DDRB = 0x0F;
+ 16a:	8f e0       	ldi	r24, 0x0F	; 15
+ 16c:	87 bb       	out	0x17, r24	; 23
+	DDRC = 0xFF;
+ 16e:	8f ef       	ldi	r24, 0xFF	; 255
+ 170:	84 bb       	out	0x14, r24	; 20
+	DDRA = 0x00;
+ 172:	1a ba       	out	0x1a, r1	; 26
+	DDRD = 0x00;
+ 174:	11 ba       	out	0x11, r1	; 17
+	PORTB = 0x00;
+ 176:	18 ba       	out	0x18, r1	; 24
+	PORTD = 0xF0;
+ 178:	80 ef       	ldi	r24, 0xF0	; 240
+ 17a:	82 bb       	out	0x12, r24	; 18
+	
+	LCD_Init();		/* Initialize the 16x2 LCD */
+ 17c:	0e 94 66 00 	call	0xcc	; 0xcc <LCD_Init>
+	LCD_Clear();	/* Clear the LCD */
+ 180:	0e 94 87 00 	call	0x10e	; 0x10e <LCD_Clear>
+	UART_Init();	/* Set baud rate 1200 */
+ 184:	0e 94 c8 00 	call	0x190	; 0x190 <UART_Init>
+	
+	sei();			/* Enable the global interrupt */
+ 188:	78 94       	sei
+	
+	while(1)
+	{
+		Ktranutbam();
+ 18a:	0e 94 94 00 	call	0x128	; 0x128 <Ktranutbam>
+ 18e:	fd cf       	rjmp	.-6      	; 0x18a <main+0x20>
+
+00000190 <UART_Init>:
+#include "avr/sfr_defs.h"
+#include "UART.h"
+
+void UART_Init()
+{
+	UBRRL = 102;
+ 190:	86 e6       	ldi	r24, 0x66	; 102
+ 192:	89 b9       	out	0x09, r24	; 9
+	UCSRB |= (1 << RXEN) | (1 << TXEN) | (1 << RXCIE);
+ 194:	8a b1       	in	r24, 0x0a	; 10
+ 196:	88 69       	ori	r24, 0x98	; 152
+ 198:	8a b9       	out	0x0a, r24	; 10
+	UCSRC |= (1 << UCSZ1) | (1 << UCSZ0) | (1 << URSEL);						//Baud = 9600, U2X = 0, F = 16MHz
+ 19a:	80 b5       	in	r24, 0x20	; 32
+ 19c:	86 68       	ori	r24, 0x86	; 134
+ 19e:	80 bd       	out	0x20, r24	; 32
+ 1a0:	08 95       	ret
+
+000001a2 <_exit>:
+ 1a2:	f8 94       	cli
+
+000001a4 <__stop_program>:
+ 1a4:	ff cf       	rjmp	.-2      	; 0x1a4 <__stop_program>

@@ -1,0 +1,367 @@
+
+Project3_TX.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000001d6  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  0000024a  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000003  00800060  00800060  0000024a  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  0000024a  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000027c  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000068  00000000  00000000  000002b8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   000009c9  00000000  00000000  00000320  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 0000072f  00000000  00000000  00000ce9  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   00000491  00000000  00000000  00001418  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  000000a8  00000000  00000000  000018ac  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    00000384  00000000  00000000  00001954  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    00000179  00000000  00000000  00001cd8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000048  00000000  00000000  00001e51  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   8:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  18:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  28:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  34:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  38:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  3c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  40:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  44:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  48:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  4c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  50:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_clear_bss>:
+  60:	20 e0       	ldi	r18, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	01 c0       	rjmp	.+2      	; 0x6a <.do_clear_bss_start>
+
+00000068 <.do_clear_bss_loop>:
+  68:	1d 92       	st	X+, r1
+
+0000006a <.do_clear_bss_start>:
+  6a:	a3 36       	cpi	r26, 0x63	; 99
+  6c:	b2 07       	cpc	r27, r18
+  6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
+  70:	0e 94 bb 00 	call	0x176	; 0x176 <main>
+  74:	0c 94 e9 00 	jmp	0x1d2	; 0x1d2 <_exit>
+
+00000078 <__bad_interrupt>:
+  78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000007c <PWM_Init>:
+    }
+}
+
+void PWM_Init()
+{
+	TCCR1A = 0;
+  7c:	1f bc       	out	0x2f, r1	; 47
+	TCCR1B = 0;
+  7e:	1e bc       	out	0x2e, r1	; 46
+	// RESET l?i 2 thanh ghi
+	// ??u ra PB2 là OUTPUT ( pin 10)
+	
+	TCCR1A |= (1 << WGM11);
+  80:	8f b5       	in	r24, 0x2f	; 47
+  82:	82 60       	ori	r24, 0x02	; 2
+  84:	8f bd       	out	0x2f, r24	; 47
+	TCCR1B |= (1 << WGM12)|(1 << WGM13);
+  86:	8e b5       	in	r24, 0x2e	; 46
+  88:	88 61       	ori	r24, 0x18	; 24
+  8a:	8e bd       	out	0x2e, r24	; 46
+	// ch?n Fast PWM ch? ?? ch?n TOP_value t? do  ICR1
+	TCCR1A |= (1 << COM1B1);
+  8c:	8f b5       	in	r24, 0x2f	; 47
+  8e:	80 62       	ori	r24, 0x20	; 32
+  90:	8f bd       	out	0x2f, r24	; 47
+	// So sánh th??ng( none-inverting)
+	TCCR1B |= (1 << CS10);
+  92:	8e b5       	in	r24, 0x2e	; 46
+  94:	81 60       	ori	r24, 0x01	; 1
+  96:	8e bd       	out	0x2e, r24	; 46
+	// F_clock/1=16mhz
+	//F_pwm=16mhz/(ICR1 + 1)
+	ICR1 = 421;
+  98:	85 ea       	ldi	r24, 0xA5	; 165
+  9a:	91 e0       	ldi	r25, 0x01	; 1
+  9c:	97 bd       	out	0x27, r25	; 39
+  9e:	86 bd       	out	0x26, r24	; 38
+  a0:	08 95       	ret
+
+000000a2 <Kiemtra>:
+	// xung r?ng c?a tràn sau 30000 P_clock
+}
+
+void Kiemtra()
+{
+	switch (a)
+  a2:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__DATA_REGION_ORIGIN__>
+  a6:	82 30       	cpi	r24, 0x02	; 2
+  a8:	09 f1       	breq	.+66     	; 0xec <Kiemtra+0x4a>
+  aa:	18 f4       	brcc	.+6      	; 0xb2 <Kiemtra+0x10>
+  ac:	81 30       	cpi	r24, 0x01	; 1
+  ae:	39 f0       	breq	.+14     	; 0xbe <Kiemtra+0x1c>
+  b0:	08 95       	ret
+  b2:	83 30       	cpi	r24, 0x03	; 3
+  b4:	91 f1       	breq	.+100    	; 0x11a <Kiemtra+0x78>
+  b6:	84 30       	cpi	r24, 0x04	; 4
+  b8:	09 f4       	brne	.+2      	; 0xbc <Kiemtra+0x1a>
+  ba:	46 c0       	rjmp	.+140    	; 0x148 <Kiemtra+0xa6>
+  bc:	08 95       	ret
+	{
+		case (1):
+			UART_Write_Chr('$');	/* send the special character '$' */
+  be:	84 e2       	ldi	r24, 0x24	; 36
+  c0:	90 e0       	ldi	r25, 0x00	; 0
+  c2:	0e 94 e5 00 	call	0x1ca	; 0x1ca <UART_Write_Chr>
+			UART_Write_Chr('1');	/* send '1' */
+  c6:	81 e3       	ldi	r24, 0x31	; 49
+  c8:	90 e0       	ldi	r25, 0x00	; 0
+  ca:	0e 94 e5 00 	call	0x1ca	; 0x1ca <UART_Write_Chr>
+			d = ~j;
+  ce:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <j>
+  d2:	80 95       	com	r24
+  d4:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <d>
+			UART_Write_Chr(d);	/* send invert of '1' */
+  d8:	90 e0       	ldi	r25, 0x00	; 0
+  da:	0e 94 e5 00 	call	0x1ca	; 0x1ca <UART_Write_Chr>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  de:	8f e3       	ldi	r24, 0x3F	; 63
+  e0:	9c e9       	ldi	r25, 0x9C	; 156
+  e2:	01 97       	sbiw	r24, 0x01	; 1
+  e4:	f1 f7       	brne	.-4      	; 0xe2 <Kiemtra+0x40>
+  e6:	00 c0       	rjmp	.+0      	; 0xe8 <Kiemtra+0x46>
+  e8:	00 00       	nop
+  ea:	08 95       	ret
+			_delay_ms(10);
+			break;
+		case (2):
+			UART_Write_Chr('$');	/* send the special character '$' */
+  ec:	84 e2       	ldi	r24, 0x24	; 36
+  ee:	90 e0       	ldi	r25, 0x00	; 0
+  f0:	0e 94 e5 00 	call	0x1ca	; 0x1ca <UART_Write_Chr>
+			UART_Write_Chr('2');	/* send '1' */
+  f4:	82 e3       	ldi	r24, 0x32	; 50
+  f6:	90 e0       	ldi	r25, 0x00	; 0
+  f8:	0e 94 e5 00 	call	0x1ca	; 0x1ca <UART_Write_Chr>
+			d = ~j;
+  fc:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <j>
+ 100:	80 95       	com	r24
+ 102:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <d>
+			UART_Write_Chr(d);	/* send invert of '1' */
+ 106:	90 e0       	ldi	r25, 0x00	; 0
+ 108:	0e 94 e5 00 	call	0x1ca	; 0x1ca <UART_Write_Chr>
+ 10c:	8f e3       	ldi	r24, 0x3F	; 63
+ 10e:	9c e9       	ldi	r25, 0x9C	; 156
+ 110:	01 97       	sbiw	r24, 0x01	; 1
+ 112:	f1 f7       	brne	.-4      	; 0x110 <Kiemtra+0x6e>
+ 114:	00 c0       	rjmp	.+0      	; 0x116 <Kiemtra+0x74>
+ 116:	00 00       	nop
+ 118:	08 95       	ret
+			_delay_ms(10);
+			break;
+		case (3):
+			UART_Write_Chr('$');	/* send the special character '$' */
+ 11a:	84 e2       	ldi	r24, 0x24	; 36
+ 11c:	90 e0       	ldi	r25, 0x00	; 0
+ 11e:	0e 94 e5 00 	call	0x1ca	; 0x1ca <UART_Write_Chr>
+			UART_Write_Chr('3');	/* send '1' */
+ 122:	83 e3       	ldi	r24, 0x33	; 51
+ 124:	90 e0       	ldi	r25, 0x00	; 0
+ 126:	0e 94 e5 00 	call	0x1ca	; 0x1ca <UART_Write_Chr>
+			d = ~j;
+ 12a:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <j>
+ 12e:	80 95       	com	r24
+ 130:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <d>
+			UART_Write_Chr(d);	/* send invert of '1' */
+ 134:	90 e0       	ldi	r25, 0x00	; 0
+ 136:	0e 94 e5 00 	call	0x1ca	; 0x1ca <UART_Write_Chr>
+ 13a:	8f e3       	ldi	r24, 0x3F	; 63
+ 13c:	9c e9       	ldi	r25, 0x9C	; 156
+ 13e:	01 97       	sbiw	r24, 0x01	; 1
+ 140:	f1 f7       	brne	.-4      	; 0x13e <Kiemtra+0x9c>
+ 142:	00 c0       	rjmp	.+0      	; 0x144 <Kiemtra+0xa2>
+ 144:	00 00       	nop
+ 146:	08 95       	ret
+			_delay_ms(10);
+			break;
+		case (4):
+			UART_Write_Chr('$');	/* send the special character '$' */
+ 148:	84 e2       	ldi	r24, 0x24	; 36
+ 14a:	90 e0       	ldi	r25, 0x00	; 0
+ 14c:	0e 94 e5 00 	call	0x1ca	; 0x1ca <UART_Write_Chr>
+			UART_Write_Chr('4');	/* send '1' */
+ 150:	84 e3       	ldi	r24, 0x34	; 52
+ 152:	90 e0       	ldi	r25, 0x00	; 0
+ 154:	0e 94 e5 00 	call	0x1ca	; 0x1ca <UART_Write_Chr>
+			d = ~j;
+ 158:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <j>
+ 15c:	80 95       	com	r24
+ 15e:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <d>
+			UART_Write_Chr(d);	/* send invert of '1' */
+ 162:	90 e0       	ldi	r25, 0x00	; 0
+ 164:	0e 94 e5 00 	call	0x1ca	; 0x1ca <UART_Write_Chr>
+ 168:	8f e3       	ldi	r24, 0x3F	; 63
+ 16a:	9c e9       	ldi	r25, 0x9C	; 156
+ 16c:	01 97       	sbiw	r24, 0x01	; 1
+ 16e:	f1 f7       	brne	.-4      	; 0x16c <Kiemtra+0xca>
+ 170:	00 c0       	rjmp	.+0      	; 0x172 <Kiemtra+0xd0>
+ 172:	00 00       	nop
+ 174:	08 95       	ret
+
+00000176 <main>:
+char j, d = 0;
+char a = 0;
+
+int main(void)
+{
+	DDRC = 0x00;
+ 176:	14 ba       	out	0x14, r1	; 20
+	PORTC = 0xFF;
+ 178:	8f ef       	ldi	r24, 0xFF	; 255
+ 17a:	85 bb       	out	0x15, r24	; 21
+	DDRD = 0xFF;
+ 17c:	81 bb       	out	0x11, r24	; 17
+	
+	PWM_Init();
+ 17e:	0e 94 3e 00 	call	0x7c	; 0x7c <PWM_Init>
+	OCR1B = 210;
+ 182:	82 ed       	ldi	r24, 0xD2	; 210
+ 184:	90 e0       	ldi	r25, 0x00	; 0
+ 186:	99 bd       	out	0x29, r25	; 41
+ 188:	88 bd       	out	0x28, r24	; 40
+	UART_Init();
+ 18a:	0e 94 dc 00 	call	0x1b8	; 0x1b8 <UART_Init>
+
+    while (1) 
+    {
+		if(btn1)
+		{
+			a = 1;
+ 18e:	01 e0       	ldi	r16, 0x01	; 1
+		}
+		if(btn2)
+		{
+			a = 2;
+ 190:	12 e0       	ldi	r17, 0x02	; 2
+		}
+		if(btn3)
+		{
+			a = 3;
+ 192:	d3 e0       	ldi	r29, 0x03	; 3
+		}
+		if(btn4)
+		{
+			a = 4;
+ 194:	c4 e0       	ldi	r28, 0x04	; 4
+	OCR1B = 210;
+	UART_Init();
+
+    while (1) 
+    {
+		if(btn1)
+ 196:	98 9b       	sbis	0x13, 0	; 19
+		{
+			a = 1;
+ 198:	00 93 60 00 	sts	0x0060, r16	; 0x800060 <__DATA_REGION_ORIGIN__>
+		}
+		if(btn2)
+ 19c:	99 9b       	sbis	0x13, 1	; 19
+		{
+			a = 2;
+ 19e:	10 93 60 00 	sts	0x0060, r17	; 0x800060 <__DATA_REGION_ORIGIN__>
+		}
+		if(btn3)
+ 1a2:	9a 9b       	sbis	0x13, 2	; 19
+		{
+			a = 3;
+ 1a4:	d0 93 60 00 	sts	0x0060, r29	; 0x800060 <__DATA_REGION_ORIGIN__>
+		}
+		if(btn4)
+ 1a8:	9b 9b       	sbis	0x13, 3	; 19
+		{
+			a = 4;
+ 1aa:	c0 93 60 00 	sts	0x0060, r28	; 0x800060 <__DATA_REGION_ORIGIN__>
+		}
+		Kiemtra();
+ 1ae:	0e 94 51 00 	call	0xa2	; 0xa2 <Kiemtra>
+		a = 0;
+ 1b2:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <__DATA_REGION_ORIGIN__>
+    }
+ 1b6:	ef cf       	rjmp	.-34     	; 0x196 <main+0x20>
+
+000001b8 <UART_Init>:
+#include "avr/sfr_defs.h"
+#include "UART.h"
+
+void UART_Init()
+{
+	UBRRL = 102;
+ 1b8:	86 e6       	ldi	r24, 0x66	; 102
+ 1ba:	89 b9       	out	0x09, r24	; 9
+	UCSRB |= (1 << RXEN) | (1 << TXEN) | (1 << RXCIE);
+ 1bc:	8a b1       	in	r24, 0x0a	; 10
+ 1be:	88 69       	ori	r24, 0x98	; 152
+ 1c0:	8a b9       	out	0x0a, r24	; 10
+	UCSRC |= (1 << UCSZ1) | (1 << UCSZ0);						//Baud = 9600, U2X = 0, F = 16MHz
+ 1c2:	80 b5       	in	r24, 0x20	; 32
+ 1c4:	86 60       	ori	r24, 0x06	; 6
+ 1c6:	80 bd       	out	0x20, r24	; 32
+ 1c8:	08 95       	ret
+
+000001ca <UART_Write_Chr>:
+}
+
+void UART_Write_Chr(unsigned char c)
+{
+	while(bit_is_clear(UCSRA, UDRE));
+ 1ca:	5d 9b       	sbis	0x0b, 5	; 11
+ 1cc:	fe cf       	rjmp	.-4      	; 0x1ca <UART_Write_Chr>
+	UDR = c;
+ 1ce:	8c b9       	out	0x0c, r24	; 12
+ 1d0:	08 95       	ret
+
+000001d2 <_exit>:
+ 1d2:	f8 94       	cli
+
+000001d4 <__stop_program>:
+ 1d4:	ff cf       	rjmp	.-2      	; 0x1d4 <__stop_program>

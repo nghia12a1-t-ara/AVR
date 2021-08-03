@@ -1,0 +1,834 @@
+
+16_06.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000004b6  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000010  00800060  000004b6  0000054a  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000002  00800070  00800070  0000055a  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  0000055a  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000058c  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 000000d0  00000000  00000000  000005c8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   0000146b  00000000  00000000  00000698  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 0000095c  00000000  00000000  00001b03  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   00000a28  00000000  00000000  0000245f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  00000160  00000000  00000000  00002e88  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    0000040d  00000000  00000000  00002fe8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    00000b0b  00000000  00000000  000033f5  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000090  00000000  00000000  00003f00  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 41 00 	jmp	0x82	; 0x82 <__ctors_end>
+   4:	0c 94 5e 00 	jmp	0xbc	; 0xbc <__bad_interrupt>
+   8:	0c 94 5e 00 	jmp	0xbc	; 0xbc <__bad_interrupt>
+   c:	0c 94 5e 00 	jmp	0xbc	; 0xbc <__bad_interrupt>
+  10:	0c 94 5e 00 	jmp	0xbc	; 0xbc <__bad_interrupt>
+  14:	0c 94 5e 00 	jmp	0xbc	; 0xbc <__bad_interrupt>
+  18:	0c 94 5e 00 	jmp	0xbc	; 0xbc <__bad_interrupt>
+  1c:	0c 94 5e 00 	jmp	0xbc	; 0xbc <__bad_interrupt>
+  20:	0c 94 5e 00 	jmp	0xbc	; 0xbc <__bad_interrupt>
+  24:	0c 94 5e 00 	jmp	0xbc	; 0xbc <__bad_interrupt>
+  28:	0c 94 5e 00 	jmp	0xbc	; 0xbc <__bad_interrupt>
+  2c:	0c 94 5e 00 	jmp	0xbc	; 0xbc <__bad_interrupt>
+  30:	0c 94 5e 00 	jmp	0xbc	; 0xbc <__bad_interrupt>
+  34:	0c 94 5e 00 	jmp	0xbc	; 0xbc <__bad_interrupt>
+  38:	0c 94 5e 00 	jmp	0xbc	; 0xbc <__bad_interrupt>
+  3c:	0c 94 5e 00 	jmp	0xbc	; 0xbc <__bad_interrupt>
+  40:	0c 94 5e 00 	jmp	0xbc	; 0xbc <__bad_interrupt>
+  44:	0c 94 5e 00 	jmp	0xbc	; 0xbc <__bad_interrupt>
+  48:	0c 94 5e 00 	jmp	0xbc	; 0xbc <__bad_interrupt>
+  4c:	0c 94 5e 00 	jmp	0xbc	; 0xbc <__bad_interrupt>
+  50:	0c 94 5e 00 	jmp	0xbc	; 0xbc <__bad_interrupt>
+  54:	15 02       	muls	r17, r21
+  56:	27 02       	muls	r18, r23
+  58:	27 02       	muls	r18, r23
+  5a:	27 02       	muls	r18, r23
+  5c:	27 02       	muls	r18, r23
+  5e:	27 02       	muls	r18, r23
+  60:	27 02       	muls	r18, r23
+  62:	02 02       	muls	r16, r18
+  64:	27 02       	muls	r18, r23
+  66:	27 02       	muls	r18, r23
+  68:	27 02       	muls	r18, r23
+  6a:	27 02       	muls	r18, r23
+  6c:	27 02       	muls	r18, r23
+  6e:	ef 01       	movw	r28, r30
+  70:	44 01       	movw	r8, r8
+  72:	57 01       	movw	r10, r14
+  74:	6a 01       	movw	r12, r20
+  76:	7d 01       	movw	r14, r26
+  78:	90 01       	movw	r18, r0
+  7a:	a3 01       	movw	r20, r6
+  7c:	b6 01       	movw	r22, r12
+  7e:	c9 01       	movw	r24, r18
+  80:	dc 01       	movw	r26, r24
+
+00000082 <__ctors_end>:
+  82:	11 24       	eor	r1, r1
+  84:	1f be       	out	0x3f, r1	; 63
+  86:	cf e5       	ldi	r28, 0x5F	; 95
+  88:	d8 e0       	ldi	r29, 0x08	; 8
+  8a:	de bf       	out	0x3e, r29	; 62
+  8c:	cd bf       	out	0x3d, r28	; 61
+
+0000008e <__do_copy_data>:
+  8e:	10 e0       	ldi	r17, 0x00	; 0
+  90:	a0 e6       	ldi	r26, 0x60	; 96
+  92:	b0 e0       	ldi	r27, 0x00	; 0
+  94:	e6 eb       	ldi	r30, 0xB6	; 182
+  96:	f4 e0       	ldi	r31, 0x04	; 4
+  98:	02 c0       	rjmp	.+4      	; 0x9e <__do_copy_data+0x10>
+  9a:	05 90       	lpm	r0, Z+
+  9c:	0d 92       	st	X+, r0
+  9e:	a0 37       	cpi	r26, 0x70	; 112
+  a0:	b1 07       	cpc	r27, r17
+  a2:	d9 f7       	brne	.-10     	; 0x9a <__do_copy_data+0xc>
+
+000000a4 <__do_clear_bss>:
+  a4:	20 e0       	ldi	r18, 0x00	; 0
+  a6:	a0 e7       	ldi	r26, 0x70	; 112
+  a8:	b0 e0       	ldi	r27, 0x00	; 0
+  aa:	01 c0       	rjmp	.+2      	; 0xae <.do_clear_bss_start>
+
+000000ac <.do_clear_bss_loop>:
+  ac:	1d 92       	st	X+, r1
+
+000000ae <.do_clear_bss_start>:
+  ae:	a2 37       	cpi	r26, 0x72	; 114
+  b0:	b2 07       	cpc	r27, r18
+  b2:	e1 f7       	brne	.-8      	; 0xac <.do_clear_bss_loop>
+  b4:	0e 94 3b 02 	call	0x476	; 0x476 <main>
+  b8:	0c 94 59 02 	jmp	0x4b2	; 0x4b2 <_exit>
+
+000000bc <__bad_interrupt>:
+  bc:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+000000c0 <keyfind>:
+
+char keyfind()
+{
+	while(1)
+	{
+		KEY_DDR = 0xF0;           /* set port direction as input-output */
+  c0:	30 ef       	ldi	r19, 0xF0	; 240
+		KEY_PRT = 0xFF;
+  c2:	2f ef       	ldi	r18, 0xFF	; 255
+				_delay_ms (40);	            /* 20 ms key debounce time */
+				colloc = (KEY_PIN & 0x0F);
+			}while(colloc == 0x0F);
+
+			/* now check for rows */
+			KEY_PRT = 0xEF;            /* check for pressed key in 1st row */
+  c4:	9f ee       	ldi	r25, 0xEF	; 239
+			{
+				rowloc = 0;
+				break;
+			}
+
+			KEY_PRT = 0xDF;		/* check for pressed key in 2nd row */
+  c6:	6f ed       	ldi	r22, 0xDF	; 223
+			{
+				rowloc = 1;
+				break;
+			}
+			
+			KEY_PRT = 0xBF;		/* check for pressed key in 3rd row */
+  c8:	5f eb       	ldi	r21, 0xBF	; 191
+			{
+				rowloc = 2;
+				break;
+			}
+
+			KEY_PRT = 0x7F;		/* check for pressed key in 4th row */
+  ca:	4f e7       	ldi	r20, 0x7F	; 127
+
+char keyfind()
+{
+	while(1)
+	{
+		KEY_DDR = 0xF0;           /* set port direction as input-output */
+  cc:	3a bb       	out	0x1a, r19	; 26
+		KEY_PRT = 0xFF;
+  ce:	2b bb       	out	0x1b, r18	; 27
+
+		do
+		{
+			KEY_PRT &= 0x0F;      /* mask PORT for column read only */
+  d0:	8b b3       	in	r24, 0x1b	; 27
+  d2:	8f 70       	andi	r24, 0x0F	; 15
+  d4:	8b bb       	out	0x1b, r24	; 27
+			asm("NOP");
+  d6:	00 00       	nop
+			colloc = (KEY_PIN & 0x0F); /* read status of column */
+  d8:	89 b3       	in	r24, 0x19	; 25
+  da:	8f 70       	andi	r24, 0x0F	; 15
+  dc:	80 93 70 00 	sts	0x0070, r24	; 0x800070 <__data_end>
+		}while(colloc != 0x0F);
+  e0:	8f 30       	cpi	r24, 0x0F	; 15
+  e2:	b1 f7       	brne	.-20     	; 0xd0 <keyfind+0x10>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  e4:	e7 e8       	ldi	r30, 0x87	; 135
+  e6:	f3 e1       	ldi	r31, 0x13	; 19
+  e8:	31 97       	sbiw	r30, 0x01	; 1
+  ea:	f1 f7       	brne	.-4      	; 0xe8 <keyfind+0x28>
+  ec:	00 c0       	rjmp	.+0      	; 0xee <keyfind+0x2e>
+  ee:	00 00       	nop
+		do
+		{
+			do
+			{
+				_delay_ms(20);             /* 20ms key debounce time */
+				colloc = (KEY_PIN & 0x0F); /* read status of column */
+  f0:	89 b3       	in	r24, 0x19	; 25
+  f2:	8f 70       	andi	r24, 0x0F	; 15
+  f4:	80 93 70 00 	sts	0x0070, r24	; 0x800070 <__data_end>
+				}while(colloc == 0x0F);        /* check for any key press */
+  f8:	8f 30       	cpi	r24, 0x0F	; 15
+  fa:	a1 f3       	breq	.-24     	; 0xe4 <keyfind+0x24>
+  fc:	ef e0       	ldi	r30, 0x0F	; 15
+  fe:	f7 e2       	ldi	r31, 0x27	; 39
+ 100:	31 97       	sbiw	r30, 0x01	; 1
+ 102:	f1 f7       	brne	.-4      	; 0x100 <keyfind+0x40>
+ 104:	00 c0       	rjmp	.+0      	; 0x106 <keyfind+0x46>
+ 106:	00 00       	nop
+				
+				_delay_ms (40);	            /* 20 ms key debounce time */
+				colloc = (KEY_PIN & 0x0F);
+ 108:	89 b3       	in	r24, 0x19	; 25
+ 10a:	8f 70       	andi	r24, 0x0F	; 15
+ 10c:	80 93 70 00 	sts	0x0070, r24	; 0x800070 <__data_end>
+			}while(colloc == 0x0F);
+ 110:	8f 30       	cpi	r24, 0x0F	; 15
+ 112:	41 f3       	breq	.-48     	; 0xe4 <keyfind+0x24>
+
+			/* now check for rows */
+			KEY_PRT = 0xEF;            /* check for pressed key in 1st row */
+ 114:	9b bb       	out	0x1b, r25	; 27
+			asm("NOP");
+ 116:	00 00       	nop
+			colloc = (KEY_PIN & 0x0F);
+ 118:	89 b3       	in	r24, 0x19	; 25
+ 11a:	8f 70       	andi	r24, 0x0F	; 15
+ 11c:	80 93 70 00 	sts	0x0070, r24	; 0x800070 <__data_end>
+			if(colloc != 0x0F)
+ 120:	8f 30       	cpi	r24, 0x0F	; 15
+ 122:	19 f0       	breq	.+6      	; 0x12a <keyfind+0x6a>
+			{
+				rowloc = 0;
+ 124:	10 92 71 00 	sts	0x0071, r1	; 0x800071 <rowloc>
+				break;
+ 128:	24 c0       	rjmp	.+72     	; 0x172 <keyfind+0xb2>
+			}
+
+			KEY_PRT = 0xDF;		/* check for pressed key in 2nd row */
+ 12a:	6b bb       	out	0x1b, r22	; 27
+			asm("NOP");
+ 12c:	00 00       	nop
+			colloc = (KEY_PIN & 0x0F);
+ 12e:	89 b3       	in	r24, 0x19	; 25
+ 130:	8f 70       	andi	r24, 0x0F	; 15
+ 132:	80 93 70 00 	sts	0x0070, r24	; 0x800070 <__data_end>
+			if(colloc != 0x0F)
+ 136:	8f 30       	cpi	r24, 0x0F	; 15
+ 138:	21 f0       	breq	.+8      	; 0x142 <keyfind+0x82>
+			{
+				rowloc = 1;
+ 13a:	81 e0       	ldi	r24, 0x01	; 1
+ 13c:	80 93 71 00 	sts	0x0071, r24	; 0x800071 <rowloc>
+				break;
+ 140:	18 c0       	rjmp	.+48     	; 0x172 <keyfind+0xb2>
+			}
+			
+			KEY_PRT = 0xBF;		/* check for pressed key in 3rd row */
+ 142:	5b bb       	out	0x1b, r21	; 27
+			asm("NOP");
+ 144:	00 00       	nop
+			colloc = (KEY_PIN & 0x0F);
+ 146:	89 b3       	in	r24, 0x19	; 25
+ 148:	8f 70       	andi	r24, 0x0F	; 15
+ 14a:	80 93 70 00 	sts	0x0070, r24	; 0x800070 <__data_end>
+			if(colloc != 0x0F)
+ 14e:	8f 30       	cpi	r24, 0x0F	; 15
+ 150:	21 f0       	breq	.+8      	; 0x15a <keyfind+0x9a>
+			{
+				rowloc = 2;
+ 152:	82 e0       	ldi	r24, 0x02	; 2
+ 154:	80 93 71 00 	sts	0x0071, r24	; 0x800071 <rowloc>
+				break;
+ 158:	0c c0       	rjmp	.+24     	; 0x172 <keyfind+0xb2>
+			}
+
+			KEY_PRT = 0x7F;		/* check for pressed key in 4th row */
+ 15a:	4b bb       	out	0x1b, r20	; 27
+			asm("NOP");
+ 15c:	00 00       	nop
+			colloc = (KEY_PIN & 0x0F);
+ 15e:	89 b3       	in	r24, 0x19	; 25
+ 160:	8f 70       	andi	r24, 0x0F	; 15
+ 162:	80 93 70 00 	sts	0x0070, r24	; 0x800070 <__data_end>
+			if(colloc != 0x0F)
+ 166:	8f 30       	cpi	r24, 0x0F	; 15
+ 168:	09 f4       	brne	.+2      	; 0x16c <keyfind+0xac>
+ 16a:	b0 cf       	rjmp	.-160    	; 0xcc <keyfind+0xc>
+			{
+				rowloc = 3;
+ 16c:	83 e0       	ldi	r24, 0x03	; 3
+ 16e:	80 93 71 00 	sts	0x0071, r24	; 0x800071 <rowloc>
+				break;
+			}
+	}
+	if(colloc == 0x0E)
+ 172:	80 91 70 00 	lds	r24, 0x0070	; 0x800070 <__data_end>
+ 176:	8e 30       	cpi	r24, 0x0E	; 14
+ 178:	59 f4       	brne	.+22     	; 0x190 <keyfind+0xd0>
+		{
+			return(keypad[rowloc][0]);
+ 17a:	e0 91 71 00 	lds	r30, 0x0071	; 0x800071 <rowloc>
+ 17e:	f0 e0       	ldi	r31, 0x00	; 0
+ 180:	ee 0f       	add	r30, r30
+ 182:	ff 1f       	adc	r31, r31
+ 184:	ee 0f       	add	r30, r30
+ 186:	ff 1f       	adc	r31, r31
+ 188:	e0 5a       	subi	r30, 0xA0	; 160
+ 18a:	ff 4f       	sbci	r31, 0xFF	; 255
+ 18c:	80 81       	ld	r24, Z
+ 18e:	08 95       	ret
+		}
+	else if(colloc == 0x0D)
+ 190:	8d 30       	cpi	r24, 0x0D	; 13
+ 192:	59 f4       	brne	.+22     	; 0x1aa <keyfind+0xea>
+		{
+			return(keypad[rowloc][1]);
+ 194:	e0 91 71 00 	lds	r30, 0x0071	; 0x800071 <rowloc>
+ 198:	f0 e0       	ldi	r31, 0x00	; 0
+ 19a:	ee 0f       	add	r30, r30
+ 19c:	ff 1f       	adc	r31, r31
+ 19e:	ee 0f       	add	r30, r30
+ 1a0:	ff 1f       	adc	r31, r31
+ 1a2:	e0 5a       	subi	r30, 0xA0	; 160
+ 1a4:	ff 4f       	sbci	r31, 0xFF	; 255
+ 1a6:	81 81       	ldd	r24, Z+1	; 0x01
+ 1a8:	08 95       	ret
+		}
+	else if(colloc == 0x0B)
+ 1aa:	8b 30       	cpi	r24, 0x0B	; 11
+ 1ac:	59 f4       	brne	.+22     	; 0x1c4 <keyfind+0x104>
+		{
+			return(keypad[rowloc][2]);
+ 1ae:	e0 91 71 00 	lds	r30, 0x0071	; 0x800071 <rowloc>
+ 1b2:	f0 e0       	ldi	r31, 0x00	; 0
+ 1b4:	ee 0f       	add	r30, r30
+ 1b6:	ff 1f       	adc	r31, r31
+ 1b8:	ee 0f       	add	r30, r30
+ 1ba:	ff 1f       	adc	r31, r31
+ 1bc:	e0 5a       	subi	r30, 0xA0	; 160
+ 1be:	ff 4f       	sbci	r31, 0xFF	; 255
+ 1c0:	82 81       	ldd	r24, Z+2	; 0x02
+ 1c2:	08 95       	ret
+		}
+	else
+		{
+			return(keypad[rowloc][3]);
+ 1c4:	e0 91 71 00 	lds	r30, 0x0071	; 0x800071 <rowloc>
+ 1c8:	f0 e0       	ldi	r31, 0x00	; 0
+ 1ca:	ee 0f       	add	r30, r30
+ 1cc:	ff 1f       	adc	r31, r31
+ 1ce:	ee 0f       	add	r30, r30
+ 1d0:	ff 1f       	adc	r31, r31
+ 1d2:	e0 5a       	subi	r30, 0xA0	; 160
+ 1d4:	ff 4f       	sbci	r31, 0xFF	; 255
+ 1d6:	83 81       	ldd	r24, Z+3	; 0x03
+		}
+ 1d8:	08 95       	ret
+
+000001da <LCD_Command>:
+ 1da:	95 b3       	in	r25, 0x15	; 21
+ 1dc:	9f 70       	andi	r25, 0x0F	; 15
+ 1de:	28 2f       	mov	r18, r24
+ 1e0:	20 7f       	andi	r18, 0xF0	; 240
+ 1e2:	92 2b       	or	r25, r18
+ 1e4:	95 bb       	out	0x15, r25	; 21
+ 1e6:	a8 98       	cbi	0x15, 0	; 21
+ 1e8:	a9 9a       	sbi	0x15, 1	; 21
+ 1ea:	35 e0       	ldi	r19, 0x05	; 5
+ 1ec:	3a 95       	dec	r19
+ 1ee:	f1 f7       	brne	.-4      	; 0x1ec <LCD_Command+0x12>
+ 1f0:	00 00       	nop
+ 1f2:	a9 98       	cbi	0x15, 1	; 21
+ 1f4:	ef e1       	ldi	r30, 0x1F	; 31
+ 1f6:	f3 e0       	ldi	r31, 0x03	; 3
+ 1f8:	31 97       	sbiw	r30, 0x01	; 1
+ 1fa:	f1 f7       	brne	.-4      	; 0x1f8 <LCD_Command+0x1e>
+ 1fc:	00 c0       	rjmp	.+0      	; 0x1fe <LCD_Command+0x24>
+ 1fe:	00 00       	nop
+ 200:	25 b3       	in	r18, 0x15	; 21
+ 202:	2f 70       	andi	r18, 0x0F	; 15
+ 204:	f0 e1       	ldi	r31, 0x10	; 16
+ 206:	8f 9f       	mul	r24, r31
+ 208:	c0 01       	movw	r24, r0
+ 20a:	11 24       	eor	r1, r1
+ 20c:	82 2b       	or	r24, r18
+ 20e:	85 bb       	out	0x15, r24	; 21
+ 210:	a9 9a       	sbi	0x15, 1	; 21
+ 212:	35 e0       	ldi	r19, 0x05	; 5
+ 214:	3a 95       	dec	r19
+ 216:	f1 f7       	brne	.-4      	; 0x214 <LCD_Command+0x3a>
+ 218:	00 00       	nop
+ 21a:	a9 98       	cbi	0x15, 1	; 21
+ 21c:	8f e3       	ldi	r24, 0x3F	; 63
+ 21e:	9f e1       	ldi	r25, 0x1F	; 31
+ 220:	01 97       	sbiw	r24, 0x01	; 1
+ 222:	f1 f7       	brne	.-4      	; 0x220 <LCD_Command+0x46>
+ 224:	00 c0       	rjmp	.+0      	; 0x226 <LCD_Command+0x4c>
+ 226:	00 00       	nop
+ 228:	08 95       	ret
+
+0000022a <LCD_Init>:
+	_delay_ms(2);
+}
+
+void LCD_Init (void)			/* LCD Initialize function */
+{
+	LCD_Dir = 0xFF;			/* Make LCD port direction as o/p */
+ 22a:	8f ef       	ldi	r24, 0xFF	; 255
+ 22c:	84 bb       	out	0x14, r24	; 20
+ 22e:	2f ef       	ldi	r18, 0xFF	; 255
+ 230:	89 ef       	ldi	r24, 0xF9	; 249
+ 232:	90 e0       	ldi	r25, 0x00	; 0
+ 234:	21 50       	subi	r18, 0x01	; 1
+ 236:	80 40       	sbci	r24, 0x00	; 0
+ 238:	90 40       	sbci	r25, 0x00	; 0
+ 23a:	e1 f7       	brne	.-8      	; 0x234 <LCD_Init+0xa>
+ 23c:	00 c0       	rjmp	.+0      	; 0x23e <LCD_Init+0x14>
+ 23e:	00 00       	nop
+	_delay_ms(20);			/* LCD Power ON delay always >15ms */
+	
+	LCD_Command(0x02);		/* send for 4 bit initialization of LCD  */
+ 240:	82 e0       	ldi	r24, 0x02	; 2
+ 242:	0e 94 ed 00 	call	0x1da	; 0x1da <LCD_Command>
+	LCD_Command(0x28);              /* 2 line, 5*7 matrix in 4-bit mode */
+ 246:	88 e2       	ldi	r24, 0x28	; 40
+ 248:	0e 94 ed 00 	call	0x1da	; 0x1da <LCD_Command>
+	LCD_Command(0x0c);              /* Display on cursor off*/
+ 24c:	8c e0       	ldi	r24, 0x0C	; 12
+ 24e:	0e 94 ed 00 	call	0x1da	; 0x1da <LCD_Command>
+	LCD_Command(0x06);              /* Increment cursor (shift cursor to right)*/
+ 252:	86 e0       	ldi	r24, 0x06	; 6
+ 254:	0e 94 ed 00 	call	0x1da	; 0x1da <LCD_Command>
+	LCD_Command(0x01);              /* Clear display screen*/
+ 258:	81 e0       	ldi	r24, 0x01	; 1
+ 25a:	0e 94 ed 00 	call	0x1da	; 0x1da <LCD_Command>
+ 25e:	8f e3       	ldi	r24, 0x3F	; 63
+ 260:	9f e1       	ldi	r25, 0x1F	; 31
+ 262:	01 97       	sbiw	r24, 0x01	; 1
+ 264:	f1 f7       	brne	.-4      	; 0x262 <LCD_Init+0x38>
+ 266:	00 c0       	rjmp	.+0      	; 0x268 <LCD_Init+0x3e>
+ 268:	00 00       	nop
+ 26a:	08 95       	ret
+
+0000026c <Kiem_tra>:
+		Kiem_tra(j);
+    }
+}
+
+void Kiem_tra(char j)
+{
+ 26c:	cf 93       	push	r28
+	char d = ~j;
+ 26e:	c8 2f       	mov	r28, r24
+ 270:	c0 95       	com	r28
+	switch (j)
+ 272:	90 e0       	ldi	r25, 0x00	; 0
+ 274:	fc 01       	movw	r30, r24
+ 276:	b3 97       	sbiw	r30, 0x23	; 35
+ 278:	e7 31       	cpi	r30, 0x17	; 23
+ 27a:	f1 05       	cpc	r31, r1
+ 27c:	08 f0       	brcs	.+2      	; 0x280 <Kiem_tra+0x14>
+ 27e:	e7 c0       	rjmp	.+462    	; 0x44e <__LOCK_REGION_LENGTH__+0x4e>
+ 280:	e6 5d       	subi	r30, 0xD6	; 214
+ 282:	ff 4f       	sbci	r31, 0xFF	; 255
+ 284:	0c 94 53 02 	jmp	0x4a6	; 0x4a6 <__tablejump2__>
+	{
+		case '1':
+			UART_Write_Chr('$');
+ 288:	84 e2       	ldi	r24, 0x24	; 36
+ 28a:	90 e0       	ldi	r25, 0x00	; 0
+ 28c:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+			UART_Write_Chr('1');
+ 290:	81 e3       	ldi	r24, 0x31	; 49
+ 292:	90 e0       	ldi	r25, 0x00	; 0
+ 294:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+			UART_Write_Chr(d);
+ 298:	8c 2f       	mov	r24, r28
+ 29a:	90 e0       	ldi	r25, 0x00	; 0
+ 29c:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+ 2a0:	8f e3       	ldi	r24, 0x3F	; 63
+ 2a2:	9c e9       	ldi	r25, 0x9C	; 156
+ 2a4:	01 97       	sbiw	r24, 0x01	; 1
+ 2a6:	f1 f7       	brne	.-4      	; 0x2a4 <Kiem_tra+0x38>
+ 2a8:	00 c0       	rjmp	.+0      	; 0x2aa <Kiem_tra+0x3e>
+ 2aa:	00 00       	nop
+ 2ac:	d0 c0       	rjmp	.+416    	; 0x44e <__LOCK_REGION_LENGTH__+0x4e>
+			_delay_ms(10);
+			break;
+		case '2':
+			UART_Write_Chr('$');
+ 2ae:	84 e2       	ldi	r24, 0x24	; 36
+ 2b0:	90 e0       	ldi	r25, 0x00	; 0
+ 2b2:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+			UART_Write_Chr('2');
+ 2b6:	82 e3       	ldi	r24, 0x32	; 50
+ 2b8:	90 e0       	ldi	r25, 0x00	; 0
+ 2ba:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+			UART_Write_Chr(d);
+ 2be:	8c 2f       	mov	r24, r28
+ 2c0:	90 e0       	ldi	r25, 0x00	; 0
+ 2c2:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+ 2c6:	8f e3       	ldi	r24, 0x3F	; 63
+ 2c8:	9c e9       	ldi	r25, 0x9C	; 156
+ 2ca:	01 97       	sbiw	r24, 0x01	; 1
+ 2cc:	f1 f7       	brne	.-4      	; 0x2ca <Kiem_tra+0x5e>
+ 2ce:	00 c0       	rjmp	.+0      	; 0x2d0 <Kiem_tra+0x64>
+ 2d0:	00 00       	nop
+ 2d2:	bd c0       	rjmp	.+378    	; 0x44e <__LOCK_REGION_LENGTH__+0x4e>
+			_delay_ms(10);
+			break;
+		case '3':
+			UART_Write_Chr('$');
+ 2d4:	84 e2       	ldi	r24, 0x24	; 36
+ 2d6:	90 e0       	ldi	r25, 0x00	; 0
+ 2d8:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+			UART_Write_Chr('3');
+ 2dc:	83 e3       	ldi	r24, 0x33	; 51
+ 2de:	90 e0       	ldi	r25, 0x00	; 0
+ 2e0:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+			UART_Write_Chr(d);
+ 2e4:	8c 2f       	mov	r24, r28
+ 2e6:	90 e0       	ldi	r25, 0x00	; 0
+ 2e8:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+ 2ec:	8f e3       	ldi	r24, 0x3F	; 63
+ 2ee:	9c e9       	ldi	r25, 0x9C	; 156
+ 2f0:	01 97       	sbiw	r24, 0x01	; 1
+ 2f2:	f1 f7       	brne	.-4      	; 0x2f0 <Kiem_tra+0x84>
+ 2f4:	00 c0       	rjmp	.+0      	; 0x2f6 <Kiem_tra+0x8a>
+ 2f6:	00 00       	nop
+ 2f8:	aa c0       	rjmp	.+340    	; 0x44e <__LOCK_REGION_LENGTH__+0x4e>
+			_delay_ms(10);
+			break;
+		case '4':
+			UART_Write_Chr('$');
+ 2fa:	84 e2       	ldi	r24, 0x24	; 36
+ 2fc:	90 e0       	ldi	r25, 0x00	; 0
+ 2fe:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+			UART_Write_Chr('4');
+ 302:	84 e3       	ldi	r24, 0x34	; 52
+ 304:	90 e0       	ldi	r25, 0x00	; 0
+ 306:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+			UART_Write_Chr(d);
+ 30a:	8c 2f       	mov	r24, r28
+ 30c:	90 e0       	ldi	r25, 0x00	; 0
+ 30e:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+ 312:	8f e3       	ldi	r24, 0x3F	; 63
+ 314:	9c e9       	ldi	r25, 0x9C	; 156
+ 316:	01 97       	sbiw	r24, 0x01	; 1
+ 318:	f1 f7       	brne	.-4      	; 0x316 <Kiem_tra+0xaa>
+ 31a:	00 c0       	rjmp	.+0      	; 0x31c <Kiem_tra+0xb0>
+ 31c:	00 00       	nop
+ 31e:	97 c0       	rjmp	.+302    	; 0x44e <__LOCK_REGION_LENGTH__+0x4e>
+			_delay_ms(10);
+			break;
+		case '5':
+			UART_Write_Chr('$');
+ 320:	84 e2       	ldi	r24, 0x24	; 36
+ 322:	90 e0       	ldi	r25, 0x00	; 0
+ 324:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+			UART_Write_Chr('5');
+ 328:	85 e3       	ldi	r24, 0x35	; 53
+ 32a:	90 e0       	ldi	r25, 0x00	; 0
+ 32c:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+			UART_Write_Chr(d);
+ 330:	8c 2f       	mov	r24, r28
+ 332:	90 e0       	ldi	r25, 0x00	; 0
+ 334:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+ 338:	8f e3       	ldi	r24, 0x3F	; 63
+ 33a:	9c e9       	ldi	r25, 0x9C	; 156
+ 33c:	01 97       	sbiw	r24, 0x01	; 1
+ 33e:	f1 f7       	brne	.-4      	; 0x33c <Kiem_tra+0xd0>
+ 340:	00 c0       	rjmp	.+0      	; 0x342 <Kiem_tra+0xd6>
+ 342:	00 00       	nop
+ 344:	84 c0       	rjmp	.+264    	; 0x44e <__LOCK_REGION_LENGTH__+0x4e>
+			_delay_ms(10);
+			break;	
+		case '6':
+			UART_Write_Chr('$');
+ 346:	84 e2       	ldi	r24, 0x24	; 36
+ 348:	90 e0       	ldi	r25, 0x00	; 0
+ 34a:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+			UART_Write_Chr('6');
+ 34e:	86 e3       	ldi	r24, 0x36	; 54
+ 350:	90 e0       	ldi	r25, 0x00	; 0
+ 352:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+			UART_Write_Chr(d);
+ 356:	8c 2f       	mov	r24, r28
+ 358:	90 e0       	ldi	r25, 0x00	; 0
+ 35a:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+ 35e:	8f e3       	ldi	r24, 0x3F	; 63
+ 360:	9c e9       	ldi	r25, 0x9C	; 156
+ 362:	01 97       	sbiw	r24, 0x01	; 1
+ 364:	f1 f7       	brne	.-4      	; 0x362 <Kiem_tra+0xf6>
+ 366:	00 c0       	rjmp	.+0      	; 0x368 <Kiem_tra+0xfc>
+ 368:	00 00       	nop
+ 36a:	71 c0       	rjmp	.+226    	; 0x44e <__LOCK_REGION_LENGTH__+0x4e>
+			_delay_ms(10);
+			break;
+		case '7':
+			UART_Write_Chr('$');
+ 36c:	84 e2       	ldi	r24, 0x24	; 36
+ 36e:	90 e0       	ldi	r25, 0x00	; 0
+ 370:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+			UART_Write_Chr('7');
+ 374:	87 e3       	ldi	r24, 0x37	; 55
+ 376:	90 e0       	ldi	r25, 0x00	; 0
+ 378:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+			UART_Write_Chr(d);
+ 37c:	8c 2f       	mov	r24, r28
+ 37e:	90 e0       	ldi	r25, 0x00	; 0
+ 380:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+ 384:	8f e3       	ldi	r24, 0x3F	; 63
+ 386:	9c e9       	ldi	r25, 0x9C	; 156
+ 388:	01 97       	sbiw	r24, 0x01	; 1
+ 38a:	f1 f7       	brne	.-4      	; 0x388 <Kiem_tra+0x11c>
+ 38c:	00 c0       	rjmp	.+0      	; 0x38e <Kiem_tra+0x122>
+ 38e:	00 00       	nop
+ 390:	5e c0       	rjmp	.+188    	; 0x44e <__LOCK_REGION_LENGTH__+0x4e>
+			_delay_ms(10);
+			break;
+		case '8':
+			UART_Write_Chr('$');
+ 392:	84 e2       	ldi	r24, 0x24	; 36
+ 394:	90 e0       	ldi	r25, 0x00	; 0
+ 396:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+			UART_Write_Chr('8');
+ 39a:	88 e3       	ldi	r24, 0x38	; 56
+ 39c:	90 e0       	ldi	r25, 0x00	; 0
+ 39e:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+			UART_Write_Chr(d);
+ 3a2:	8c 2f       	mov	r24, r28
+ 3a4:	90 e0       	ldi	r25, 0x00	; 0
+ 3a6:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+ 3aa:	8f e3       	ldi	r24, 0x3F	; 63
+ 3ac:	9c e9       	ldi	r25, 0x9C	; 156
+ 3ae:	01 97       	sbiw	r24, 0x01	; 1
+ 3b0:	f1 f7       	brne	.-4      	; 0x3ae <Kiem_tra+0x142>
+ 3b2:	00 c0       	rjmp	.+0      	; 0x3b4 <Kiem_tra+0x148>
+ 3b4:	00 00       	nop
+ 3b6:	4b c0       	rjmp	.+150    	; 0x44e <__LOCK_REGION_LENGTH__+0x4e>
+			_delay_ms(10);
+			break;	
+		case '9':
+			UART_Write_Chr('$');
+ 3b8:	84 e2       	ldi	r24, 0x24	; 36
+ 3ba:	90 e0       	ldi	r25, 0x00	; 0
+ 3bc:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+			UART_Write_Chr('9');
+ 3c0:	89 e3       	ldi	r24, 0x39	; 57
+ 3c2:	90 e0       	ldi	r25, 0x00	; 0
+ 3c4:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+			UART_Write_Chr(d);
+ 3c8:	8c 2f       	mov	r24, r28
+ 3ca:	90 e0       	ldi	r25, 0x00	; 0
+ 3cc:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+ 3d0:	8f e3       	ldi	r24, 0x3F	; 63
+ 3d2:	9c e9       	ldi	r25, 0x9C	; 156
+ 3d4:	01 97       	sbiw	r24, 0x01	; 1
+ 3d6:	f1 f7       	brne	.-4      	; 0x3d4 <Kiem_tra+0x168>
+ 3d8:	00 c0       	rjmp	.+0      	; 0x3da <Kiem_tra+0x16e>
+ 3da:	00 00       	nop
+ 3dc:	38 c0       	rjmp	.+112    	; 0x44e <__LOCK_REGION_LENGTH__+0x4e>
+			_delay_ms(10);
+			break;
+		case '0':
+			UART_Write_Chr('$');
+ 3de:	84 e2       	ldi	r24, 0x24	; 36
+ 3e0:	90 e0       	ldi	r25, 0x00	; 0
+ 3e2:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+			UART_Write_Chr('0');
+ 3e6:	80 e3       	ldi	r24, 0x30	; 48
+ 3e8:	90 e0       	ldi	r25, 0x00	; 0
+ 3ea:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+			UART_Write_Chr(d);
+ 3ee:	8c 2f       	mov	r24, r28
+ 3f0:	90 e0       	ldi	r25, 0x00	; 0
+ 3f2:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+ 3f6:	8f e3       	ldi	r24, 0x3F	; 63
+ 3f8:	9c e9       	ldi	r25, 0x9C	; 156
+ 3fa:	01 97       	sbiw	r24, 0x01	; 1
+ 3fc:	f1 f7       	brne	.-4      	; 0x3fa <Kiem_tra+0x18e>
+ 3fe:	00 c0       	rjmp	.+0      	; 0x400 <__LOCK_REGION_LENGTH__>
+ 400:	00 00       	nop
+ 402:	25 c0       	rjmp	.+74     	; 0x44e <__LOCK_REGION_LENGTH__+0x4e>
+			_delay_ms(10);
+			break;
+		case '*':
+			UART_Write_Chr('$');
+ 404:	84 e2       	ldi	r24, 0x24	; 36
+ 406:	90 e0       	ldi	r25, 0x00	; 0
+ 408:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+			UART_Write_Chr('*');
+ 40c:	8a e2       	ldi	r24, 0x2A	; 42
+ 40e:	90 e0       	ldi	r25, 0x00	; 0
+ 410:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+			UART_Write_Chr(d);
+ 414:	8c 2f       	mov	r24, r28
+ 416:	90 e0       	ldi	r25, 0x00	; 0
+ 418:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+ 41c:	8f e3       	ldi	r24, 0x3F	; 63
+ 41e:	9c e9       	ldi	r25, 0x9C	; 156
+ 420:	01 97       	sbiw	r24, 0x01	; 1
+ 422:	f1 f7       	brne	.-4      	; 0x420 <__LOCK_REGION_LENGTH__+0x20>
+ 424:	00 c0       	rjmp	.+0      	; 0x426 <__LOCK_REGION_LENGTH__+0x26>
+ 426:	00 00       	nop
+ 428:	12 c0       	rjmp	.+36     	; 0x44e <__LOCK_REGION_LENGTH__+0x4e>
+			_delay_ms(10);
+			break;
+		case '#':
+			UART_Write_Chr('$');
+ 42a:	84 e2       	ldi	r24, 0x24	; 36
+ 42c:	90 e0       	ldi	r25, 0x00	; 0
+ 42e:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+			UART_Write_Chr('#');
+ 432:	83 e2       	ldi	r24, 0x23	; 35
+ 434:	90 e0       	ldi	r25, 0x00	; 0
+ 436:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+			UART_Write_Chr(d);
+ 43a:	8c 2f       	mov	r24, r28
+ 43c:	90 e0       	ldi	r25, 0x00	; 0
+ 43e:	0e 94 4f 02 	call	0x49e	; 0x49e <UART_Write_Chr>
+ 442:	8f e3       	ldi	r24, 0x3F	; 63
+ 444:	9c e9       	ldi	r25, 0x9C	; 156
+ 446:	01 97       	sbiw	r24, 0x01	; 1
+ 448:	f1 f7       	brne	.-4      	; 0x446 <__LOCK_REGION_LENGTH__+0x46>
+ 44a:	00 c0       	rjmp	.+0      	; 0x44c <__LOCK_REGION_LENGTH__+0x4c>
+ 44c:	00 00       	nop
+			_delay_ms(10);
+			break;
+	}
+}
+ 44e:	cf 91       	pop	r28
+ 450:	08 95       	ret
+
+00000452 <Timer1_Init>:
+
+void Timer1_Init()
+{
+	DDRD |= 0xFF;
+ 452:	81 b3       	in	r24, 0x11	; 17
+ 454:	8f ef       	ldi	r24, 0xFF	; 255
+ 456:	81 bb       	out	0x11, r24	; 17
+	TCCR1A |= (1 << WGM11) | (1 << COM1A1) | (1 << COM1B1);
+ 458:	8f b5       	in	r24, 0x2f	; 47
+ 45a:	82 6a       	ori	r24, 0xA2	; 162
+ 45c:	8f bd       	out	0x2f, r24	; 47
+	TCCR1B |= (1 << WGM12) | (1 << WGM13) | (1 << CS10);  // chia 1
+ 45e:	8e b5       	in	r24, 0x2e	; 46
+ 460:	89 61       	ori	r24, 0x19	; 25
+ 462:	8e bd       	out	0x2e, r24	; 46
+	ICR1 = 422;
+ 464:	86 ea       	ldi	r24, 0xA6	; 166
+ 466:	91 e0       	ldi	r25, 0x01	; 1
+ 468:	97 bd       	out	0x27, r25	; 39
+ 46a:	86 bd       	out	0x26, r24	; 38
+	OCR1A = 211;
+ 46c:	83 ed       	ldi	r24, 0xD3	; 211
+ 46e:	90 e0       	ldi	r25, 0x00	; 0
+ 470:	9b bd       	out	0x2b, r25	; 43
+ 472:	8a bd       	out	0x2a, r24	; 42
+ 474:	08 95       	ret
+
+00000476 <main>:
+
+char check, data, invdata, count = 0;
+
+int main(void)
+{
+	Timer1_Init();
+ 476:	0e 94 29 02 	call	0x452	; 0x452 <Timer1_Init>
+	UART_Init();
+ 47a:	0e 94 46 02 	call	0x48c	; 0x48c <UART_Init>
+	LCD_Init();
+ 47e:	0e 94 15 01 	call	0x22a	; 0x22a <LCD_Init>
+	
+	char j = 0;
+
+    while (1) 
+    {
+		j = keyfind();
+ 482:	0e 94 60 00 	call	0xc0	; 0xc0 <keyfind>
+		Kiem_tra(j);
+ 486:	0e 94 36 01 	call	0x26c	; 0x26c <Kiem_tra>
+ 48a:	fb cf       	rjmp	.-10     	; 0x482 <main+0xc>
+
+0000048c <UART_Init>:
+#include "avr/sfr_defs.h"
+#include "UART.h"
+
+void UART_Init()
+{
+	UBRRL = 102;
+ 48c:	86 e6       	ldi	r24, 0x66	; 102
+ 48e:	89 b9       	out	0x09, r24	; 9
+	UCSRB |= (1 << RXEN) | (1 << TXEN) | (1 << RXCIE);
+ 490:	8a b1       	in	r24, 0x0a	; 10
+ 492:	88 69       	ori	r24, 0x98	; 152
+ 494:	8a b9       	out	0x0a, r24	; 10
+	UCSRC |= (1 << UCSZ1) | (1 << UCSZ0);						//Baud = 9600, U2X = 0, F = 16MHz
+ 496:	80 b5       	in	r24, 0x20	; 32
+ 498:	86 60       	ori	r24, 0x06	; 6
+ 49a:	80 bd       	out	0x20, r24	; 32
+ 49c:	08 95       	ret
+
+0000049e <UART_Write_Chr>:
+}
+
+void UART_Write_Chr(unsigned char c)
+{
+	while(bit_is_clear(UCSRA, UDRE));
+ 49e:	5d 9b       	sbis	0x0b, 5	; 11
+ 4a0:	fe cf       	rjmp	.-4      	; 0x49e <UART_Write_Chr>
+	UDR = c;
+ 4a2:	8c b9       	out	0x0c, r24	; 12
+ 4a4:	08 95       	ret
+
+000004a6 <__tablejump2__>:
+ 4a6:	ee 0f       	add	r30, r30
+ 4a8:	ff 1f       	adc	r31, r31
+ 4aa:	05 90       	lpm	r0, Z+
+ 4ac:	f4 91       	lpm	r31, Z
+ 4ae:	e0 2d       	mov	r30, r0
+ 4b0:	09 94       	ijmp
+
+000004b2 <_exit>:
+ 4b2:	f8 94       	cli
+
+000004b4 <__stop_program>:
+ 4b4:	ff cf       	rjmp	.-2      	; 0x4b4 <__stop_program>

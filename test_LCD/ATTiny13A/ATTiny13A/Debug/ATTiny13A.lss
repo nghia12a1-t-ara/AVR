@@ -1,0 +1,582 @@
+
+ATTiny13A.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000032e  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  000003a2  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          0000000f  00800060  00800060  000003a2  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  000003a2  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000003d4  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000030  00000000  00000000  00000410  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   0000057d  00000000  00000000  00000440  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 00000401  00000000  00000000  000009bd  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   00000335  00000000  00000000  00000dbe  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  000000a0  00000000  00000000  000010f4  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    000002eb  00000000  00000000  00001194  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    000003ad  00000000  00000000  0000147f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000020  00000000  00000000  0000182c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	09 c0       	rjmp	.+18     	; 0x14 <__ctors_end>
+   2:	17 c0       	rjmp	.+46     	; 0x32 <__vector_1>
+   4:	15 c0       	rjmp	.+42     	; 0x30 <__bad_interrupt>
+   6:	14 c0       	rjmp	.+40     	; 0x30 <__bad_interrupt>
+   8:	13 c0       	rjmp	.+38     	; 0x30 <__bad_interrupt>
+   a:	12 c0       	rjmp	.+36     	; 0x30 <__bad_interrupt>
+   c:	f0 c0       	rjmp	.+480    	; 0x1ee <__vector_6>
+   e:	10 c0       	rjmp	.+32     	; 0x30 <__bad_interrupt>
+  10:	0f c0       	rjmp	.+30     	; 0x30 <__bad_interrupt>
+  12:	0e c0       	rjmp	.+28     	; 0x30 <__bad_interrupt>
+
+00000014 <__ctors_end>:
+  14:	11 24       	eor	r1, r1
+  16:	1f be       	out	0x3f, r1	; 63
+  18:	cf e9       	ldi	r28, 0x9F	; 159
+  1a:	cd bf       	out	0x3d, r28	; 61
+
+0000001c <__do_clear_bss>:
+  1c:	20 e0       	ldi	r18, 0x00	; 0
+  1e:	a0 e6       	ldi	r26, 0x60	; 96
+  20:	b0 e0       	ldi	r27, 0x00	; 0
+  22:	01 c0       	rjmp	.+2      	; 0x26 <.do_clear_bss_start>
+
+00000024 <.do_clear_bss_loop>:
+  24:	1d 92       	st	X+, r1
+
+00000026 <.do_clear_bss_start>:
+  26:	af 36       	cpi	r26, 0x6F	; 111
+  28:	b2 07       	cpc	r27, r18
+  2a:	e1 f7       	brne	.-8      	; 0x24 <.do_clear_bss_loop>
+  2c:	15 d1       	rcall	.+554    	; 0x258 <main>
+  2e:	7d c1       	rjmp	.+762    	; 0x32a <_exit>
+
+00000030 <__bad_interrupt>:
+  30:	e7 cf       	rjmp	.-50     	; 0x0 <__vectors>
+
+00000032 <__vector_1>:
+
+	return IR_SUCCESS;
+}
+
+ISR(INT0_vect)
+{
+  32:	1f 92       	push	r1
+  34:	0f 92       	push	r0
+  36:	0f b6       	in	r0, 0x3f	; 63
+  38:	0f 92       	push	r0
+  3a:	11 24       	eor	r1, r1
+  3c:	2f 93       	push	r18
+  3e:	3f 93       	push	r19
+  40:	4f 93       	push	r20
+  42:	5f 93       	push	r21
+  44:	6f 93       	push	r22
+  46:	7f 93       	push	r23
+  48:	8f 93       	push	r24
+  4a:	9f 93       	push	r25
+  4c:	af 93       	push	r26
+  4e:	bf 93       	push	r27
+{
+	uint8_t value;
+	uint16_t counter;
+
+	/* load IR counter value to local variable, then reset counter */
+	counter = IR_counter;
+  50:	40 91 6b 00 	lds	r20, 0x006B	; 0x80006b <IR_counter>
+  54:	50 91 6c 00 	lds	r21, 0x006C	; 0x80006c <IR_counter+0x1>
+	IR_counter = 0;
+  58:	10 92 6c 00 	sts	0x006C, r1	; 0x80006c <IR_counter+0x1>
+  5c:	10 92 6b 00 	sts	0x006B, r1	; 0x80006b <IR_counter>
+
+	/* read IR_IN_PIN digital value
+	(NOTE: logical inverse value = value ^ 1 due to sensor used) */
+	value = (PINB & (1 << IR_IN_PIN)) > 0 ? LOW : HIGH;
+  60:	86 b3       	in	r24, 0x16	; 22
+  62:	82 70       	andi	r24, 0x02	; 2
+  64:	90 e0       	ldi	r25, 0x00	; 0
+
+	switch(IR_event) {
+  66:	20 91 66 00 	lds	r18, 0x0066	; 0x800066 <IR_event>
+  6a:	21 30       	cpi	r18, 0x01	; 1
+  6c:	79 f0       	breq	.+30     	; 0x8c <__SREG__+0x4d>
+  6e:	30 f0       	brcs	.+12     	; 0x7c <__SREG__+0x3d>
+  70:	22 30       	cpi	r18, 0x02	; 2
+  72:	09 f4       	brne	.+2      	; 0x76 <__SREG__+0x37>
+  74:	a7 c0       	rjmp	.+334    	; 0x1c4 <__stack+0x125>
+  76:	23 30       	cpi	r18, 0x03	; 3
+  78:	29 f1       	breq	.+74     	; 0xc4 <__stack+0x25>
+  7a:	aa c0       	rjmp	.+340    	; 0x1d0 <__stack+0x131>
+		case IR_EVENT_IDLE:
+		/* awaiting for an initial signal */
+		if (value == HIGH) {
+  7c:	18 16       	cp	r1, r24
+  7e:	19 06       	cpc	r1, r25
+  80:	0c f4       	brge	.+2      	; 0x84 <__SREG__+0x45>
+  82:	a6 c0       	rjmp	.+332    	; 0x1d0 <__stack+0x131>
+			IR_event = IR_EVENT_INIT;
+  84:	81 e0       	ldi	r24, 0x01	; 1
+  86:	80 93 66 00 	sts	0x0066, r24	; 0x800066 <IR_event>
+  8a:	a2 c0       	rjmp	.+324    	; 0x1d0 <__stack+0x131>
+		}
+		break;
+		case IR_EVENT_INIT:
+		/* consume leading pulse burst */
+		if (value == LOW) {
+  8c:	18 16       	cp	r1, r24
+  8e:	19 06       	cpc	r1, r25
+  90:	ac f4       	brge	.+42     	; 0xbc <__stack+0x1d>
+			if (counter > 655 && counter < 815) {
+  92:	40 59       	subi	r20, 0x90	; 144
+  94:	52 40       	sbci	r21, 0x02	; 2
+  96:	4f 39       	cpi	r20, 0x9F	; 159
+  98:	51 05       	cpc	r21, r1
+  9a:	60 f4       	brcc	.+24     	; 0xb4 <__stack+0x15>
+				/* a 9ms leading pulse burst, NEC Infrared Transmission Protocol detected,
+				counter = 0.009/(1.0/38222.) * 2 = 343.998 * 2 = 686 (+/- 30) */
+				IR_event = IR_EVENT_PROC;
+  9c:	83 e0       	ldi	r24, 0x03	; 3
+  9e:	80 93 66 00 	sts	0x0066, r24	; 0x800066 <IR_event>
+				IR_proto_event = IR_PROTO_EVENT_INIT;
+  a2:	10 92 65 00 	sts	0x0065, r1	; 0x800065 <IR_proto_event>
+				IR_timeout = 7400;
+  a6:	88 ee       	ldi	r24, 0xE8	; 232
+  a8:	9c e1       	ldi	r25, 0x1C	; 28
+  aa:	90 93 6e 00 	sts	0x006E, r25	; 0x80006e <IR_timeout+0x1>
+  ae:	80 93 6d 00 	sts	0x006D, r24	; 0x80006d <IR_timeout>
+  b2:	8e c0       	rjmp	.+284    	; 0x1d0 <__stack+0x131>
+				} else {
+				IR_event = IR_EVENT_FINI;
+  b4:	82 e0       	ldi	r24, 0x02	; 2
+  b6:	80 93 66 00 	sts	0x0066, r24	; 0x800066 <IR_event>
+  ba:	8a c0       	rjmp	.+276    	; 0x1d0 <__stack+0x131>
+			}
+			} else {
+			IR_event = IR_EVENT_FINI;
+  bc:	82 e0       	ldi	r24, 0x02	; 2
+  be:	80 93 66 00 	sts	0x0066, r24	; 0x800066 <IR_event>
+  c2:	86 c0       	rjmp	.+268    	; 0x1d0 <__stack+0x131>
+
+static int8_t IR_NEC_process(uint16_t counter, uint8_t value)
+{
+	int8_t retval = IR_ERROR;
+
+	switch(IR_proto_event) 
+  c4:	20 91 65 00 	lds	r18, 0x0065	; 0x800065 <IR_proto_event>
+  c8:	21 30       	cpi	r18, 0x01	; 1
+  ca:	49 f1       	breq	.+82     	; 0x11e <__stack+0x7f>
+  cc:	38 f0       	brcs	.+14     	; 0xdc <__stack+0x3d>
+  ce:	22 30       	cpi	r18, 0x02	; 2
+  d0:	09 f4       	brne	.+2      	; 0xd4 <__stack+0x35>
+  d2:	64 c0       	rjmp	.+200    	; 0x19c <__stack+0xfd>
+  d4:	23 30       	cpi	r18, 0x03	; 3
+  d6:	09 f4       	brne	.+2      	; 0xda <__stack+0x3b>
+  d8:	5a c0       	rjmp	.+180    	; 0x18e <__stack+0xef>
+  da:	70 c0       	rjmp	.+224    	; 0x1bc <__stack+0x11d>
+	{
+		case IR_PROTO_EVENT_INIT:
+		/* expecting a space */
+		if (value == HIGH) {
+  dc:	18 16       	cp	r1, r24
+  de:	19 06       	cpc	r1, r25
+  e0:	0c f4       	brge	.+2      	; 0xe4 <__stack+0x45>
+  e2:	6c c0       	rjmp	.+216    	; 0x1bc <__stack+0x11d>
+			if (counter > 330 && counter < 360) {
+  e4:	ca 01       	movw	r24, r20
+  e6:	8b 54       	subi	r24, 0x4B	; 75
+  e8:	91 40       	sbci	r25, 0x01	; 1
+  ea:	4d 97       	sbiw	r24, 0x1d	; 29
+  ec:	70 f4       	brcc	.+28     	; 0x10a <__stack+0x6b>
+				/* a 4.5ms space for regular transmition of NEC Code;
+				counter => 0.0045/(1.0/38222.0) * 2 = 344 (+/- 15) */
+				IR_proto_event = IR_PROTO_EVENT_DATA;
+  ee:	81 e0       	ldi	r24, 0x01	; 1
+  f0:	80 93 65 00 	sts	0x0065, r24	; 0x800065 <IR_proto_event>
+				IR_data = IR_index = 0;
+  f4:	10 92 64 00 	sts	0x0064, r1	; 0x800064 <IR_index>
+  f8:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <__DATA_REGION_ORIGIN__>
+  fc:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <__DATA_REGION_ORIGIN__+0x1>
+ 100:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <__DATA_REGION_ORIGIN__+0x2>
+ 104:	10 92 63 00 	sts	0x0063, r1	; 0x800063 <__DATA_REGION_ORIGIN__+0x3>
+ 108:	63 c0       	rjmp	.+198    	; 0x1d0 <__stack+0x131>
+				retval = IR_SUCCESS;
+				} else if (counter > 155 && counter < 185) {
+ 10a:	4c 59       	subi	r20, 0x9C	; 156
+ 10c:	51 09       	sbc	r21, r1
+ 10e:	4d 31       	cpi	r20, 0x1D	; 29
+ 110:	51 05       	cpc	r21, r1
+ 112:	08 f0       	brcs	.+2      	; 0x116 <__stack+0x77>
+ 114:	53 c0       	rjmp	.+166    	; 0x1bc <__stack+0x11d>
+				/* a 2.25ms space for NEC Code repeat;
+				counter => 0.00225/(1.0/38222.0) * 2 = 172 (+/- 15) */
+				IR_proto_event = IR_PROTO_EVENT_FINI;
+ 116:	82 e0       	ldi	r24, 0x02	; 2
+ 118:	80 93 65 00 	sts	0x0065, r24	; 0x800065 <IR_proto_event>
+ 11c:	59 c0       	rjmp	.+178    	; 0x1d0 <__stack+0x131>
+		4) the 8-bit logical inverse of the command
+		Logical '0' – a 562.5µs pulse burst followed by a 562.5µs
+		(<90 IR counter cycles) space, with a total transmit time of 1.125ms
+		Logical '1' – a 562.5µs pulse burst followed by a 1.6875ms
+		(>=90 IR counter cycles) space, with a total transmit time of 2.25ms */
+		if (IR_index < 32) {
+ 11e:	20 91 64 00 	lds	r18, 0x0064	; 0x800064 <IR_index>
+ 122:	20 32       	cpi	r18, 0x20	; 32
+ 124:	08 f0       	brcs	.+2      	; 0x128 <__stack+0x89>
+ 126:	4a c0       	rjmp	.+148    	; 0x1bc <__stack+0x11d>
+			if (value == HIGH) {
+ 128:	18 16       	cp	r1, r24
+ 12a:	19 06       	cpc	r1, r25
+ 12c:	0c f4       	brge	.+2      	; 0x130 <__stack+0x91>
+ 12e:	50 c0       	rjmp	.+160    	; 0x1d0 <__stack+0x131>
+				IR_data |= ((uint32_t)((counter < 90) ? 0 : 1) << IR_index++);
+ 130:	31 e0       	ldi	r19, 0x01	; 1
+ 132:	32 0f       	add	r19, r18
+ 134:	30 93 64 00 	sts	0x0064, r19	; 0x800064 <IR_index>
+ 138:	81 e0       	ldi	r24, 0x01	; 1
+ 13a:	90 e0       	ldi	r25, 0x00	; 0
+ 13c:	a0 e0       	ldi	r26, 0x00	; 0
+ 13e:	b0 e0       	ldi	r27, 0x00	; 0
+ 140:	4a 35       	cpi	r20, 0x5A	; 90
+ 142:	51 05       	cpc	r21, r1
+ 144:	18 f4       	brcc	.+6      	; 0x14c <__stack+0xad>
+ 146:	80 e0       	ldi	r24, 0x00	; 0
+ 148:	90 e0       	ldi	r25, 0x00	; 0
+ 14a:	dc 01       	movw	r26, r24
+ 14c:	04 c0       	rjmp	.+8      	; 0x156 <__stack+0xb7>
+ 14e:	88 0f       	add	r24, r24
+ 150:	99 1f       	adc	r25, r25
+ 152:	aa 1f       	adc	r26, r26
+ 154:	bb 1f       	adc	r27, r27
+ 156:	2a 95       	dec	r18
+ 158:	d2 f7       	brpl	.-12     	; 0x14e <__stack+0xaf>
+ 15a:	40 91 60 00 	lds	r20, 0x0060	; 0x800060 <__DATA_REGION_ORIGIN__>
+ 15e:	50 91 61 00 	lds	r21, 0x0061	; 0x800061 <__DATA_REGION_ORIGIN__+0x1>
+ 162:	60 91 62 00 	lds	r22, 0x0062	; 0x800062 <__DATA_REGION_ORIGIN__+0x2>
+ 166:	70 91 63 00 	lds	r23, 0x0063	; 0x800063 <__DATA_REGION_ORIGIN__+0x3>
+ 16a:	84 2b       	or	r24, r20
+ 16c:	95 2b       	or	r25, r21
+ 16e:	a6 2b       	or	r26, r22
+ 170:	b7 2b       	or	r27, r23
+ 172:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__DATA_REGION_ORIGIN__>
+ 176:	90 93 61 00 	sts	0x0061, r25	; 0x800061 <__DATA_REGION_ORIGIN__+0x1>
+ 17a:	a0 93 62 00 	sts	0x0062, r26	; 0x800062 <__DATA_REGION_ORIGIN__+0x2>
+ 17e:	b0 93 63 00 	sts	0x0063, r27	; 0x800063 <__DATA_REGION_ORIGIN__+0x3>
+				if (IR_index == 32) {
+ 182:	30 32       	cpi	r19, 0x20	; 32
+ 184:	29 f5       	brne	.+74     	; 0x1d0 <__stack+0x131>
+					IR_proto_event = IR_PROTO_EVENT_HOOK;
+ 186:	83 e0       	ldi	r24, 0x03	; 3
+ 188:	80 93 65 00 	sts	0x0065, r24	; 0x800065 <IR_proto_event>
+ 18c:	21 c0       	rjmp	.+66     	; 0x1d0 <__stack+0x131>
+		}
+		break;
+		case IR_PROTO_EVENT_HOOK:
+		/* expecting a final 562.5µs pulse burst to
+		signify the end of message transmission */
+		if (value == LOW) {
+ 18e:	18 16       	cp	r1, r24
+ 190:	19 06       	cpc	r1, r25
+ 192:	a4 f4       	brge	.+40     	; 0x1bc <__stack+0x11d>
+			IR_proto_event = IR_PROTO_EVENT_FINI;
+ 194:	82 e0       	ldi	r24, 0x02	; 2
+ 196:	80 93 65 00 	sts	0x0065, r24	; 0x800065 <IR_proto_event>
+ 19a:	1a c0       	rjmp	.+52     	; 0x1d0 <__stack+0x131>
+			retval = IR_SUCCESS;
+		}
+		break;
+		case IR_PROTO_EVENT_FINI:
+		/* copying data to volatile variable; raw data is ready */
+		IR_rawdata = IR_data;
+ 19c:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__DATA_REGION_ORIGIN__>
+ 1a0:	90 91 61 00 	lds	r25, 0x0061	; 0x800061 <__DATA_REGION_ORIGIN__+0x1>
+ 1a4:	a0 91 62 00 	lds	r26, 0x0062	; 0x800062 <__DATA_REGION_ORIGIN__+0x2>
+ 1a8:	b0 91 63 00 	lds	r27, 0x0063	; 0x800063 <__DATA_REGION_ORIGIN__+0x3>
+ 1ac:	80 93 67 00 	sts	0x0067, r24	; 0x800067 <IR_rawdata>
+ 1b0:	90 93 68 00 	sts	0x0068, r25	; 0x800068 <IR_rawdata+0x1>
+ 1b4:	a0 93 69 00 	sts	0x0069, r26	; 0x800069 <IR_rawdata+0x2>
+ 1b8:	b0 93 6a 00 	sts	0x006A, r27	; 0x80006a <IR_rawdata+0x3>
+		}
+		break;
+		case IR_EVENT_PROC:
+		/* read and decode NEC Protocol data */
+		if (IR_NEC_process(counter, value))
+		IR_event = IR_EVENT_FINI;
+ 1bc:	82 e0       	ldi	r24, 0x02	; 2
+ 1be:	80 93 66 00 	sts	0x0066, r24	; 0x800066 <IR_event>
+ 1c2:	06 c0       	rjmp	.+12     	; 0x1d0 <__stack+0x131>
+		break;
+		case IR_EVENT_FINI:
+		/* clear timeout and set idle mode */
+		IR_event = IR_EVENT_IDLE;
+ 1c4:	10 92 66 00 	sts	0x0066, r1	; 0x800066 <IR_event>
+		IR_timeout = 0;
+ 1c8:	10 92 6e 00 	sts	0x006E, r1	; 0x80006e <IR_timeout+0x1>
+ 1cc:	10 92 6d 00 	sts	0x006D, r1	; 0x80006d <IR_timeout>
+}
+
+ISR(INT0_vect)
+{
+	IR_process();
+}
+ 1d0:	bf 91       	pop	r27
+ 1d2:	af 91       	pop	r26
+ 1d4:	9f 91       	pop	r25
+ 1d6:	8f 91       	pop	r24
+ 1d8:	7f 91       	pop	r23
+ 1da:	6f 91       	pop	r22
+ 1dc:	5f 91       	pop	r21
+ 1de:	4f 91       	pop	r20
+ 1e0:	3f 91       	pop	r19
+ 1e2:	2f 91       	pop	r18
+ 1e4:	0f 90       	pop	r0
+ 1e6:	0f be       	out	0x3f, r0	; 63
+ 1e8:	0f 90       	pop	r0
+ 1ea:	1f 90       	pop	r1
+ 1ec:	18 95       	reti
+
+000001ee <__vector_6>:
+
+ISR(TIM0_COMPA_vect)
+{
+ 1ee:	1f 92       	push	r1
+ 1f0:	0f 92       	push	r0
+ 1f2:	0f b6       	in	r0, 0x3f	; 63
+ 1f4:	0f 92       	push	r0
+ 1f6:	11 24       	eor	r1, r1
+ 1f8:	2f 93       	push	r18
+ 1fa:	3f 93       	push	r19
+ 1fc:	8f 93       	push	r24
+ 1fe:	9f 93       	push	r25
+	/* When transmitting or receiving remote control codes using
+	the NEC IR transmission protocol, the communications performs
+	optimally when the carrier frequency (used for modulation/demodulation)
+	is set to 38.222kHz. */
+	if (IR_counter++ > 10000)
+ 200:	80 91 6b 00 	lds	r24, 0x006B	; 0x80006b <IR_counter>
+ 204:	90 91 6c 00 	lds	r25, 0x006C	; 0x80006c <IR_counter+0x1>
+ 208:	9c 01       	movw	r18, r24
+ 20a:	2f 5f       	subi	r18, 0xFF	; 255
+ 20c:	3f 4f       	sbci	r19, 0xFF	; 255
+ 20e:	30 93 6c 00 	sts	0x006C, r19	; 0x80006c <IR_counter+0x1>
+ 212:	20 93 6b 00 	sts	0x006B, r18	; 0x80006b <IR_counter>
+ 216:	81 31       	cpi	r24, 0x11	; 17
+ 218:	97 42       	sbci	r25, 0x27	; 39
+ 21a:	10 f0       	brcs	.+4      	; 0x220 <__vector_6+0x32>
+	IR_event = IR_EVENT_IDLE;
+ 21c:	10 92 66 00 	sts	0x0066, r1	; 0x800066 <IR_event>
+	if (IR_timeout && --IR_timeout == 0)
+ 220:	80 91 6d 00 	lds	r24, 0x006D	; 0x80006d <IR_timeout>
+ 224:	90 91 6e 00 	lds	r25, 0x006E	; 0x80006e <IR_timeout+0x1>
+ 228:	89 2b       	or	r24, r25
+ 22a:	69 f0       	breq	.+26     	; 0x246 <__vector_6+0x58>
+ 22c:	80 91 6d 00 	lds	r24, 0x006D	; 0x80006d <IR_timeout>
+ 230:	90 91 6e 00 	lds	r25, 0x006E	; 0x80006e <IR_timeout+0x1>
+ 234:	01 97       	sbiw	r24, 0x01	; 1
+ 236:	90 93 6e 00 	sts	0x006E, r25	; 0x80006e <IR_timeout+0x1>
+ 23a:	80 93 6d 00 	sts	0x006D, r24	; 0x80006d <IR_timeout>
+ 23e:	89 2b       	or	r24, r25
+ 240:	11 f4       	brne	.+4      	; 0x246 <__vector_6+0x58>
+	IR_event = IR_EVENT_IDLE;
+ 242:	10 92 66 00 	sts	0x0066, r1	; 0x800066 <IR_event>
+}
+ 246:	9f 91       	pop	r25
+ 248:	8f 91       	pop	r24
+ 24a:	3f 91       	pop	r19
+ 24c:	2f 91       	pop	r18
+ 24e:	0f 90       	pop	r0
+ 250:	0f be       	out	0x3f, r0	; 63
+ 252:	0f 90       	pop	r0
+ 254:	1f 90       	pop	r1
+ 256:	18 95       	reti
+
+00000258 <main>:
+main(void)
+{
+	uint8_t addr, cmd;
+
+	/* setup */
+	DDRB |= (1 << LED1_PIN) | (1 << LED2_PIN) | (1 << LED3_PIN) | (1 << LED4_PIN);
+ 258:	87 b3       	in	r24, 0x17	; 23
+ 25a:	8d 61       	ori	r24, 0x1D	; 29
+ 25c:	87 bb       	out	0x17, r24	; 23
+	DDRB &= ~(1 << IR_IN_PIN);
+ 25e:	b9 98       	cbi	0x17, 1	; 23
+uint32_t IR_data = 0;
+
+static void
+IR_init()
+{
+	DDRB &= ~(1 << IR_IN_PIN); // set IR IN pin as INPUT
+ 260:	b9 98       	cbi	0x17, 1	; 23
+	PORTB &= ~(1 << IR_IN_PIN); // set LOW level to IR IN pin
+ 262:	c1 98       	cbi	0x18, 1	; 24
+	TCCR0A |= (1 << WGM01); // set timer counter mode to CTC
+ 264:	8f b5       	in	r24, 0x2f	; 47
+ 266:	82 60       	ori	r24, 0x02	; 2
+ 268:	8f bd       	out	0x2f, r24	; 47
+	TCCR0B |= (1 << CS00); // set prescaler to 1
+ 26a:	83 b7       	in	r24, 0x33	; 51
+ 26c:	81 60       	ori	r24, 0x01	; 1
+ 26e:	83 bf       	out	0x33, r24	; 51
+	TIMSK0 |= (1 << OCIE0A); // enable Timer COMPA interrupt
+ 270:	89 b7       	in	r24, 0x39	; 57
+ 272:	84 60       	ori	r24, 0x04	; 4
+ 274:	89 bf       	out	0x39, r24	; 57
+	OCR0A = IR_OCR0A; // set OCR0n to get ~38.222kHz timer frequency
+ 276:	8a e7       	ldi	r24, 0x7A	; 122
+ 278:	86 bf       	out	0x36, r24	; 54
+	GIMSK |= (1 << INT0); // enable INT0 interrupt handler
+ 27a:	8b b7       	in	r24, 0x3b	; 59
+ 27c:	80 64       	ori	r24, 0x40	; 64
+ 27e:	8b bf       	out	0x3b, r24	; 59
+	MCUCR &= ~(1 << ISC01); // trigger INTO interrupt on raising
+ 280:	85 b7       	in	r24, 0x35	; 53
+ 282:	8d 7f       	andi	r24, 0xFD	; 253
+ 284:	85 bf       	out	0x35, r24	; 53
+	MCUCR |= (1 << ISC00); // and falling edge
+ 286:	85 b7       	in	r24, 0x35	; 53
+ 288:	81 60       	ori	r24, 0x01	; 1
+ 28a:	85 bf       	out	0x35, r24	; 53
+	sei(); // enable global interrupts
+ 28c:	78 94       	sei
+				break;
+				case 0x06:
+				PORTB ^= (1 << LED3_PIN); // toggle LED3
+				break;
+				case 0x04:
+				PORTB ^= (1 << LED4_PIN); // toggle LED4
+ 28e:	f0 e1       	ldi	r31, 0x10	; 16
+				break;
+				case 0x07:
+				PORTB ^= (1 << LED2_PIN); // toggle LED2
+				break;
+				case 0x06:
+				PORTB ^= (1 << LED3_PIN); // toggle LED3
+ 290:	e8 e0       	ldi	r30, 0x08	; 8
+				break;
+				case 0x00:
+				PORTB ^= (1 << LED1_PIN); // toggle LED1
+				break;
+				case 0x07:
+				PORTB ^= (1 << LED2_PIN); // toggle LED2
+ 292:	34 e0       	ldi	r19, 0x04	; 4
+				case 0x01:
+				/* turn all LEDs off */
+				PORTB &= ~((1 << LED1_PIN) | (1 << LED2_PIN) | (1 << LED3_PIN) | (1 << LED4_PIN));
+				break;
+				case 0x00:
+				PORTB ^= (1 << LED1_PIN); // toggle LED1
+ 294:	21 e0       	ldi	r18, 0x01	; 1
+
+}
+
+static int8_t IR_read(uint8_t *addr, uint8_t *command)
+{
+	if (!IR_rawdata)
+ 296:	80 91 67 00 	lds	r24, 0x0067	; 0x800067 <IR_rawdata>
+ 29a:	90 91 68 00 	lds	r25, 0x0068	; 0x800068 <IR_rawdata+0x1>
+ 29e:	a0 91 69 00 	lds	r26, 0x0069	; 0x800069 <IR_rawdata+0x2>
+ 2a2:	b0 91 6a 00 	lds	r27, 0x006A	; 0x80006a <IR_rawdata+0x3>
+ 2a6:	89 2b       	or	r24, r25
+ 2a8:	8a 2b       	or	r24, r26
+ 2aa:	8b 2b       	or	r24, r27
+ 2ac:	a1 f3       	breq	.-24     	; 0x296 <main+0x3e>
+	return IR_ERROR;
+
+	*addr = IR_rawdata;
+ 2ae:	40 91 67 00 	lds	r20, 0x0067	; 0x800067 <IR_rawdata>
+ 2b2:	50 91 68 00 	lds	r21, 0x0068	; 0x800068 <IR_rawdata+0x1>
+ 2b6:	60 91 69 00 	lds	r22, 0x0069	; 0x800069 <IR_rawdata+0x2>
+ 2ba:	70 91 6a 00 	lds	r23, 0x006A	; 0x80006a <IR_rawdata+0x3>
+	*command = IR_rawdata >> 16;
+ 2be:	80 91 67 00 	lds	r24, 0x0067	; 0x800067 <IR_rawdata>
+ 2c2:	90 91 68 00 	lds	r25, 0x0068	; 0x800068 <IR_rawdata+0x1>
+ 2c6:	a0 91 69 00 	lds	r26, 0x0069	; 0x800069 <IR_rawdata+0x2>
+ 2ca:	b0 91 6a 00 	lds	r27, 0x006A	; 0x80006a <IR_rawdata+0x3>
+	IR_rawdata = 0;
+ 2ce:	10 92 67 00 	sts	0x0067, r1	; 0x800067 <IR_rawdata>
+ 2d2:	10 92 68 00 	sts	0x0068, r1	; 0x800068 <IR_rawdata+0x1>
+ 2d6:	10 92 69 00 	sts	0x0069, r1	; 0x800069 <IR_rawdata+0x2>
+ 2da:	10 92 6a 00 	sts	0x006A, r1	; 0x80006a <IR_rawdata+0x3>
+	IR_init();
+
+	/* loop */
+	while (1) {
+		if (IR_read(&addr, &cmd) == IR_SUCCESS) {
+			if (addr != 0x01)
+ 2de:	41 30       	cpi	r20, 0x01	; 1
+ 2e0:	d1 f6       	brne	.-76     	; 0x296 <main+0x3e>
+			continue;
+			switch(cmd) {
+ 2e2:	cd 01       	movw	r24, r26
+ 2e4:	aa 27       	eor	r26, r26
+ 2e6:	bb 27       	eor	r27, r27
+ 2e8:	84 30       	cpi	r24, 0x04	; 4
+ 2ea:	d9 f0       	breq	.+54     	; 0x322 <main+0xca>
+ 2ec:	28 f4       	brcc	.+10     	; 0x2f8 <main+0xa0>
+ 2ee:	88 23       	and	r24, r24
+ 2f0:	61 f0       	breq	.+24     	; 0x30a <main+0xb2>
+ 2f2:	81 30       	cpi	r24, 0x01	; 1
+ 2f4:	31 f0       	breq	.+12     	; 0x302 <main+0xaa>
+ 2f6:	cf cf       	rjmp	.-98     	; 0x296 <main+0x3e>
+ 2f8:	86 30       	cpi	r24, 0x06	; 6
+ 2fa:	79 f0       	breq	.+30     	; 0x31a <main+0xc2>
+ 2fc:	87 30       	cpi	r24, 0x07	; 7
+ 2fe:	49 f0       	breq	.+18     	; 0x312 <main+0xba>
+ 300:	ca cf       	rjmp	.-108    	; 0x296 <main+0x3e>
+				case 0x01:
+				/* turn all LEDs off */
+				PORTB &= ~((1 << LED1_PIN) | (1 << LED2_PIN) | (1 << LED3_PIN) | (1 << LED4_PIN));
+ 302:	88 b3       	in	r24, 0x18	; 24
+ 304:	82 7e       	andi	r24, 0xE2	; 226
+ 306:	88 bb       	out	0x18, r24	; 24
+				break;
+ 308:	c6 cf       	rjmp	.-116    	; 0x296 <main+0x3e>
+				case 0x00:
+				PORTB ^= (1 << LED1_PIN); // toggle LED1
+ 30a:	88 b3       	in	r24, 0x18	; 24
+ 30c:	82 27       	eor	r24, r18
+ 30e:	88 bb       	out	0x18, r24	; 24
+				break;
+ 310:	c2 cf       	rjmp	.-124    	; 0x296 <main+0x3e>
+				case 0x07:
+				PORTB ^= (1 << LED2_PIN); // toggle LED2
+ 312:	88 b3       	in	r24, 0x18	; 24
+ 314:	83 27       	eor	r24, r19
+ 316:	88 bb       	out	0x18, r24	; 24
+				break;
+ 318:	be cf       	rjmp	.-132    	; 0x296 <main+0x3e>
+				case 0x06:
+				PORTB ^= (1 << LED3_PIN); // toggle LED3
+ 31a:	88 b3       	in	r24, 0x18	; 24
+ 31c:	8e 27       	eor	r24, r30
+ 31e:	88 bb       	out	0x18, r24	; 24
+				break;
+ 320:	ba cf       	rjmp	.-140    	; 0x296 <main+0x3e>
+				case 0x04:
+				PORTB ^= (1 << LED4_PIN); // toggle LED4
+ 322:	88 b3       	in	r24, 0x18	; 24
+ 324:	8f 27       	eor	r24, r31
+ 326:	88 bb       	out	0x18, r24	; 24
+				break;
+ 328:	b6 cf       	rjmp	.-148    	; 0x296 <main+0x3e>
+
+0000032a <_exit>:
+ 32a:	f8 94       	cli
+
+0000032c <__stop_program>:
+ 32c:	ff cf       	rjmp	.-2      	; 0x32c <__stop_program>
